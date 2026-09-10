@@ -1,0 +1,153 @@
+@font-face {
+  font-family: pt-sans;
+  src: url('/assets/fonts/ptsans-regular-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: pt-sans_bold;
+  src: url('/assets/fonts/ptsans-bold-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: viga;
+  src: url('/assets/fonts/viga-regular-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: cinzel bold;
+  src:
+    url('/assets/fonts/cinzeldecorative-bold-webfont.woff2') format('woff2'),
+    url('/assets/fonts/cinzeldecorative-bold-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: londrina regular;
+  src:
+    url('/assets/fonts/londrinasketch-regular-webfont.woff2') format('woff2'),
+    url('/assets/fonts/londrinasketch-regular-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: luckiestguy regular;
+  src:
+    url('/assets/fonts/luckiestguy-regular-webfont.woff2') format('woff2'),
+    url('/assets/fonts/luckiestguy-regular-webfont.woff') format('woff');
+}
+
+:root {
+  --v-input-control-height: 30px;
+  --v-field-input-padding-top: 8px;
+  --v-field-input-padding-bottom: 8px;
+  --v-theme-on-surface: #000;
+ 
+}
+
+.v-input__control{
+  height:50px;
+}
+
+.v-field__input {
+  padding: 5px;
+  color:var(--v-theme-on-surface);
+  height:100%;
+}
+
+ .v-theme--light{
+  color: #000 !important;
+ }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'pt-sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+html {
+  overflow-y: scroll;
+  color: #000;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f5f5f5;
+}
+
+body {
+  box-sizing: border-box;
+  height: 100vh;
+}
+
+.pad16 {
+  padding: 16px;
+}
+
+.textaligncenter {
+  text-align: center;
+}
+
+input,
+button,
+select,
+textarea {
+  padding: 8px;
+  border: 1px solid green;
+  font-size: 0.8rem;
+  color: green;
+  border-radius: 8px;
+}
+
+input {
+  width: 30vw;
+  background-color: linen;
+  min-width: 180px;
+  border-radius: 6px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.v-field__input {
+  min-height: 40px;
+  border: none;
+}
+
+button {
+  background-color: green;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid linen;
+}
+
+h1 {
+  font-family: 'cinzel bold', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  margin: 16px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin: 0 16px 16px;
+  text-align: left;
+}
+
+h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+a {
+  text-decoration: none;
+  color: green;
+}
+
+a:hover {
+  color: rgb(246, 246, 245);
+}
