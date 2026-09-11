@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-// import { useRecipeSearch } from '../composables/useRecipeSearch'
 
 const { query, openSearchLayer } = useRecipeSearch()
 
