@@ -1,10 +1,11 @@
 <template>
+      <BounceSpoon />
     <div class="about-container">
        <h2>About:</h2> 
 <p>Für meine Bewerbung beim FWU habe ich eine kleine Kochrezepte-App in NUXT/Vue/Typescript gebaut.</p>
-<p>Ich hatte einfach Lust, etwas Praktisches umzusetzen. Es hat mir richtig Spaß gemacht, die App innerhalb einer Woche von der Idee bis zur funktionierenden Anwendung zu entwickeln. Das Projekt zeigt, wie gern ich Dinge baue, die man wirklich benutzen kann, und wie viel Freude mir das Programmieren macht.
+<p>Ich hatte einfach Lust, etwas Praktisches umzusetzen. Es hat mir Spaß gemacht, die App innerhalb einer Woche von der Idee bis zur funktionierenden Anwendung zu entwickeln.
 </p>
-<p>Mir geht es nicht darum, etwas Perfektes abzuliefern, sondern darum, zu zeigen, wie ich arbeite: neugierig, mit Freude am Ausprobieren und einem klaren Blick für Struktur und Nutzerfreundlichkeit.
+<p>Mir ging mir darum, zu zeigen wie schnell man Neues umsetzen kann, wenn man neugierig und mit Freude am Ausprobieren bei der Sache ist.
 </p>
 Christina Troitzsch
 </div>

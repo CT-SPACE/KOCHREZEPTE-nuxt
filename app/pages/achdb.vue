@@ -1,12 +1,11 @@
 <template>
-  <v-card title="Nutrition" flat>
+  <v-card title="Achims Datenbank" flat>
     <template v-slot:text>
       <v-text-field
         v-model="search"
         label="Search"
-        prepend-inner-icon="ph"
+        prepend-inner-icon="mdi-magnify"
         variant="outlined"
-        hide-details
         single-line
       ></v-text-field>
     </template>
@@ -15,6 +14,7 @@
       :headers="headers"
       :items="recipes"
       :search="search"
+      :sort-icon="''"
     ></v-data-table>
   </v-card>
 </template>
@@ -28,14 +28,6 @@ const search = ref('')
 
 onMounted(() => {
   recipes.value = getRecipesFromData()
-  console.log(
-    'recipes:',
-    recipes.value,
-    'length: ',
-    recipes.value.length,
-    '1.Object: ',
-    recipes.value[0],
-  )
 })
   const headers = [
     {
@@ -48,3 +40,15 @@ onMounted(() => {
     {key: 'source', title: 'Zu finden in: '},
 ]  as const
 </script>
+
+
+<style scoped>
+.achdbContainer {
+  padding: 30px;
+}
+h2 {
+  margin-bottom: 20px;
+}
+
+
+</style>

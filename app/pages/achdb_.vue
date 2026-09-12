@@ -42,7 +42,7 @@ const headers = [
       <v-text-field
         v-model="search"
         label="Search"
-        prepend-inner-icon="ph-magnify"
+        prepend-inner-icon="mdi-magnify"
         variant="outlined"
         hide-details="auto"
         detals-active="true"

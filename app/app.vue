@@ -1,4 +1,5 @@
 <template>
+
   <v-app>
     <div class="headerContainer"><Header /></div>
     <RecipeSearchOverlay />
@@ -20,16 +21,16 @@ import RecipeSearchOverlay from '@/components/RecipeSearchOverlay.vue'
 
 <style scoped>
 nav.footer {
-  /* opacity: 0.8; */
-  background: linear-gradient(
-    to right top,
-
-    rgb(204, 243, 198) 20%,
-    rgb(131, 202, 25) 100%
-  );
-  padding: 30px;
-  background-color: #f5f5f5;
+    background: linear-gradient(to right top, rgb(204, 243, 198) 20%, rgb(131, 202, 25) 100%);
+    padding: 20px 5px;
+    background-color: #f5f5f5;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-sizing: border-box;
 }
+
 #app {
   font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
