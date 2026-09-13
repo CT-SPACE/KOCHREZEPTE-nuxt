@@ -13,7 +13,7 @@
           type="text"
           placeholder="Suche nach Rezept, Zutat, Land oder Kategorie..."
         />
-
+        <div class="secondControlLine">
         <select v-model="countryFilter">
           <option value="">Alle Länder</option>
           <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
@@ -28,8 +28,8 @@
           <option value="">Alle Zutaten</option>
           <option v-for="i in ingredientsList" :key="i" :value="i">{{ i }}</option>
         </select>
+        </div>
       </div>
-
       <p v-if="loading" class="status">Lade...</p>
       <p v-else-if="!hasAnyFilter" class="status">Bitte Suchbegriff eingeben oder Filter wählen.</p>
       <p v-else class="count">{{ results.length }} Treffer</p>
@@ -117,6 +117,11 @@ watch([query, countryFilter, categoryFilter, ingredientFilter], scheduleSearch)
   padding: 8px;
 }
 
+.secondControlLine{
+  display:flex;
+  gap: 8px;
+}
+
 .status,
 .count {
   margin: 12px 0;
@@ -139,6 +144,19 @@ select {
 @media screen and (max-width: 700px) {
   .list-item {
     width: 100%;
+  }
+  .controls{
+    flex-direction:column;
+  }
+
+}
+
+@media screen and (max-width: 450px){
+.secondControlLine select{
+    width:80px;  
+}
+  .overlay-panel{
+    padding: 24px 10px;
   }
 }
 </style>

@@ -4,7 +4,7 @@
     <CursorTrail />
   </ClientOnly>
     <div class="about-container">
-       <h2>About:</h2> 
+       <h2 class="width100">About:</h2> 
 <p>Für meine Bewerbung beim FWU habe ich eine kleine Kochrezepte-App in NUXT/Vue/JavaScript gebaut.</p>
 <p>Ich hatte einfach Lust, etwas Praktisches umzusetzen. Es hat mir Spaß gemacht, die App innerhalb einer Woche von der Idee bis zur funktionierenden Anwendung zu entwickeln.
 </p>
@@ -20,6 +20,9 @@ Christina Troitzsch
 </script>
 
 <style scoped>
+.width100{
+  width:100%;
+}
 .about-container {
     padding: 16px;
     display:flex;
