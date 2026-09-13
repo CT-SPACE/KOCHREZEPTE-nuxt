@@ -14,7 +14,7 @@ onMounted(async () => {
    setTimeout(() => {
     meals.value = data?.meals || []
     stop()
-    }, 0)
+    }, 300)
   } catch (error) {
     console.error('Fehler beim Laden der Rezepte:', error)
   }
@@ -22,7 +22,7 @@ onMounted(async () => {
 </script>
 
 <template>
-     <Loader v-if="loading" />
+ <Loader_pot v-if="loading" />
     
   <div class="recipes">
     <RecipeItem v-for="meal in meals" :key="meal.idMeal" :recipe="meal" />

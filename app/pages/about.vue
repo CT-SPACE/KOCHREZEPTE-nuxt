@@ -1,11 +1,17 @@
 <template>
-      <BounceSpoon />
+  <ClientOnly>
+    <CustomCursor />
+    <CursorTrail />
+  </ClientOnly>
     <div class="about-container">
        <h2>About:</h2> 
-<p>Für meine Bewerbung beim FWU habe ich eine kleine Kochrezepte-App in NUXT/Vue/Typescript gebaut.</p>
+<p>Für meine Bewerbung beim FWU habe ich eine kleine Kochrezepte-App in NUXT/Vue/JavaScript gebaut.</p>
 <p>Ich hatte einfach Lust, etwas Praktisches umzusetzen. Es hat mir Spaß gemacht, die App innerhalb einer Woche von der Idee bis zur funktionierenden Anwendung zu entwickeln.
 </p>
-<p>Mir ging mir darum, zu zeigen wie schnell man Neues umsetzen kann, wenn man neugierig und mit Freude am Ausprobieren bei der Sache ist.
+<p>
+  Ich habe vuetify und unocss kennengelernt. Und mit Hilfe von Ki auch einbinden können. Es gibt da noch eine Unschärfe, die ich noch verstehen muss.
+</p>
+<p>Mir ging es darum, die Zeit bis ich wieder von euch höre, sinnvoll zu nutzen, und mir selbst zu zeigen wie schnell man Neues umsetzen kann. Diese Freude am Ausprobieren ist unbezahlbar.
 </p>
 Christina Troitzsch
 </div>

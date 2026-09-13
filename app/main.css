@@ -45,11 +45,12 @@
 .v-field__input {
   padding: 5px 16px !important;
   color:var(--v-theme-on-surface);
-      min-height: 50px;
     box-sizing: border-box;
     display:flex;
     justify-content:center;
     align-items: center;
+  min-height: 40px !important;
+  border: none;
 }
 
 .v-field__append-inner, .v-input__details{
@@ -94,6 +95,22 @@
 
 }
 
+.v-skeleton-loader__bone::after {
+    animation: loading 1.5s infinite;
+    background: linear-gradient(90deg, 
+color-mix(in srgb, rgb(var(--v-theme-surface)) 0%, transparent), 
+color-mix(in srgb, rgb(80 239 19) 30%, transparent), 
+color-mix(in srgb, rgb(22 114 13) 0%, transparent));
+}
+
+input:-internal-autofill-selected {
+  background-color: linen !important;
+}
+input:-internal-autofill-selected:focus-visible{
+  outline: none;
+  border:none;
+  background-color: linen;
+}
 
 nav.v-pagination{
   display:none !important;
@@ -136,6 +153,7 @@ th{
   opacity: 1 !important;
   fill: currentColor !important;
 }
+
 
 html,
 body {
@@ -211,10 +229,7 @@ input:focus {
   outline: none;
 }
 
-.v-field__input {
-  min-height: 40px !important;
-  border: none;
-}
+
 
 button {
   background-color: green;
@@ -240,7 +255,8 @@ h1 {
 
 h2 {
   font-size: 1.8rem;
-  margin: 0 16px 16px;
+  width:100%;
+  margin:  16px 16px 0;
   text-align: left;
 }
 

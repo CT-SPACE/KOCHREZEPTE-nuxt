@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getRecipesByIdFromAPI } from '../utils/api.service'
+const { loading, start, stop } = useLoading()
 
 const route = useRoute()
 const meal = ref<any>(null)
@@ -19,13 +20,19 @@ const getMeasure = (mealData: any, m: string | number) => {
 
 onMounted(async () => {
   try {
+    start()
     const id = route.params.id as string
     const data = await getRecipesByIdFromAPI(id)
 
     // Prüfen, ob meals vorhanden sind
+     setTimeout(() => {
     if (data && data.meals && data.meals.length > 0) {
+    
       meal.value = data.meals[0]
+     
+      stop()
     }
+  }, 3000)
   } catch (error) {
     console.error('Fehler beim Laden des Rezepts:', error)
   }
@@ -78,12 +85,13 @@ const instructionSteps = computed(() => {
 </script>
 
 <template>
-  <div v-if="meal" class="pad16">
+   <Loader_pot v-if="loading" />
+  <div v-if="meal">
     <h2 class="pad16">{{ meal.strMeal }}</h2>
     <div class="hero-image-container">
       <img :src="meal.strMealThumb" :alt="meal.strMeal" class="hero-image" />
     </div>
-    <div class="pad16">
+    <div class="pad16 center">
       <span><strong>Kategorie:</strong> {{ meal.strCategory }}</span
       >&nbsp;|&nbsp;
       <span><strong>Land:</strong> {{ meal.strCountry }}</span>
@@ -117,7 +125,7 @@ const instructionSteps = computed(() => {
     </div>
   </div>
   <div v-else>
-    <p>Rezept wird geladen...</p>
+   
   </div>
 </template>
 
@@ -155,7 +163,9 @@ const instructionSteps = computed(() => {
   text-align: left;
   margin: 0;
 }
-
+.center{
+  text-align: center;
+}
 li p {
   margin-top: 0;
   margin-bottom: 8px;
