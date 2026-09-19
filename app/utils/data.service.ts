@@ -1,16 +1,6 @@
 import recipesData from '../data/ach_db.json'
 
-export interface RecipeData {
-  idMeal?: string | number
-  strMeal?: string
-  strCategory?: string
-  strCountry?: string
-  strInstructions?: string
-  strMealThumb?: string
-  description?: string[]
-  strIngredients?: string[]
-  [key: string]: unknown
-}
+
 
 const recipeList = recipesData as RecipeData[]
 
@@ -37,3 +27,4 @@ export function searchRecipesFromData(searchTerm: string): RecipeData[] {
     ),
   )
 }
+

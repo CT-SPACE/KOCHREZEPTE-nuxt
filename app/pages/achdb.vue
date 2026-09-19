@@ -14,27 +14,30 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getRecipesFromData, type RecipeData } from '../utils/data.service'
+// import { getRecipesFromData, type RecipeData } from '../utils/data.service'
+import { getAllRecipesFromDB } from '../utils/achdb.service'
+import type { DbRecipe } from '../types/dbRecipe.type'
 
-const recipes = ref<RecipeData[]>([])
+const recipes = ref<DbRecipe[]>([])
 const search = ref('')
 const { loading, start, stop } = useLoading()
 
 onMounted(async () => {
     start()
      await new Promise(resolve => setTimeout(resolve, 3000)) 
-    recipes.value = getRecipesFromData()
-    stop()
+    recipes.value = await getAllRecipesFromDB()
+     stop()
 })
 const headers = [
     {
         align: 'start',
-        key: 'strMeal',
+        key: 'title',
         sortable: true,
         title: 'Gericht',
     },
-    { key: 'strCategory', title: 'Kategorie' },
-    { key: 'source', title: 'Zu finden in: ' },
+    { key: 'catagory', title: 'Kategorie' },
+    { key: 'source_type', title: 'Zu finden in: ' },
+    { key: 'source', title: 'Wo genau: ' },
 ] as const
 
 

@@ -24,15 +24,6 @@
 </template> -->
 
 <template>
-  <!-- Fonts müssen VOR Vuetify geladen werden -->
-  <link
-    rel="preload"
-    href="/node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
-    as="font"
-    type="font/woff2"
-    crossorigin
-  />
-
   <v-app>
     <!-- HEADER MUSS AUSSERHALB V-MAIN SEIN -->
     <div class="headerContainer">
@@ -61,6 +52,7 @@
 <script setup>
 
 import '@/main.css'
+import '@mdi/font/css/materialdesignicons.css'
 import Header from '@/components/Header.vue'
 import RecipeSearchOverlay from '@/components/RecipeSearchOverlay.vue'
 

@@ -1,9 +1,10 @@
 <script setup>
 import RecipeItem from '@/components/RecipeItem.vue'
 import { ref, onMounted } from 'vue'
-import { getRecipesFromData } from '../utils/data.service.ts'
+// import { getRecipesFromData } from '../utils/data.service.ts'
+import { getAllRecipesFromDB } from '../utils/achdb.service'
 
-const meals = ref(getRecipesFromData())
+const recipes = ref(getAllRecipesFromDB())
 
 const query = ref('')
 const categoryFilter = ref('')
@@ -32,40 +33,40 @@ const toArray = (value) => {
 const category = computed(() => {
   return [
     ...new Set(
-      meals.value
-        .map((meal) => meal.strCategory)
+      recipes.value
+        .map((recipe) => recipe.Category)
         .filter(Boolean)
         .sort(),
     ),
   ]
 })
 
-const ingredientsList = computed(() => {
-  const ingredients = meals.value.flatMap((meal) => toArray(meal.strIngredients))
+// const ingredientsList = computed(() => {
+//   const ingredients = recipes.value.flatMap((meal) => toArray(meal.ingredients))
 
-  return [...new Set(ingredients)].sort()
-})
+//   return [...new Set(ingredients)].sort()
+// })
 
 const results = computed(() => {
   const search = normalize(query.value)
   const selectedCategory = normalize(categoryFilter.value)
-  const selectedIngredient = normalize(ingredientFilter.value)
+  // const selectedIngredient = normalize(ingredientFilter.value)
 
-  return meals.value.filter((meal) => {
-    const mealCategory = normalize(meal.strCategory)
-    const mealIngredients = toArray(meal.strIngredients).map(normalize)
+  return recipes.value.filter((recipe) => {
+    const recipeCategory = normalize(recipe.category)
+    const recipeIngredients = toArray(recipe_ingredients.ingredients_name).map(normalize)
 
     const matchesSearch =
       !search ||
-      normalize(meal.strMeal).includes(search) ||
-      mealCategory.includes(search) ||
-      mealIngredients.some((ingredient) => ingredient.includes(search))
+      normalize(recipe.title).includes(search) ||
+      recipe.category.includes(search) 
+      || recipesIngredients.some((ingredient) => ingredient.includes(search))
 
-    const matchesCategory = !selectedCategory || mealCategory === selectedCategory
+    const matchesCategory = !selectedCategory || recipeCategory === selectedCategory
 
     const matchesIngredient = !selectedIngredient || mealIngredients.includes(selectedIngredient)
 
-    return matchesSearch && matchesCategory && matchesIngredient
+    return matchesSearch && matchesCategory // && matchesIngredient
   })
 })
 
