@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS recipes (
   prep_time INTEGER,
   cook_time INTEGER,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT
+  updated_at TEXT,
+  category TEXT
 );
 
 CREATE TABLE IF NOT EXISTS source_types (
