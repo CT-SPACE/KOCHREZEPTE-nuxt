@@ -79,6 +79,10 @@
   color:rgba(113, 154, 116, 0.4) !important;
 }
 
+ .v-table td{
+  padding: 0 4px !important;
+}
+
 .v-data-table-footer__items-per-page > .v-select{
   width:unset !important;
 }
@@ -112,9 +116,9 @@ input:-internal-autofill-selected:focus-visible{
   background-color: linen;
 }
 
-nav.v-pagination{
+/* nav.v-pagination{
   display:none !important;
-}
+} */
 i {
   display:none;
   width:0;
@@ -142,17 +146,16 @@ th{
 
 
 
-.v-icon,
+/* .v-icon,
 .v-pagination__first,
-
 .v-pagination__navigation,
 .v-btn--variant-plain,
 .v-pagination__navigation .v-btn,
 .v-pagination__navigation .v-icon {
-  /* color: black !important; */
+  /* color: black !important; */ /* Wichtig für das Ausgrauen des Paginators, wenn nicht nutzbar
   opacity: 1 !important;
   fill: currentColor !important;
-}
+} */
 
 
 html,
@@ -231,6 +234,7 @@ input:focus {
 
 
 
+
 button {
   background-color: green;
   font-weight: bold;
@@ -250,7 +254,7 @@ h1 {
   font-size: 2rem;
   letter-spacing: 0.05em;
   text-align: left;
-  margin: 16px;
+  margin: 16px 16px 16px 30px;
 }
 
 h2 {
@@ -274,13 +278,3 @@ a:hover {
   color: rgb(246, 246, 245);
 }
 
-input {
-  width: 30vw;
-  background-color: linen;
-  min-width: 180px;
-  border-radius: 6px;
-}
-
-input:focus {
-  outline: none;
-}

@@ -8,5 +8,11 @@ export interface DbRecipe {
   source: string | null
   source_detail: string | null
   note: string | null
-  source_type: string | null
+  source_type_id: number
+  category: string | null
+}
+
+export interface DbSourceType {
+  stid: number
+  source_type: string
 }
