@@ -1,5 +1,4 @@
-import type { DbRecipe } from '../types/dbRecipe.type'
-import type { DbSourceType } from '../types/dbRecipe.type'
+﻿import type { DbRecipe, DbRecipeIngredients, DbSourceType, DbUnits } from '../types/dbRecipe.type'
 
 export async function getAllRecipesFromDB(): Promise<DbRecipe[]> {
   const res = await $fetch<DbRecipe[]>('/api/recipes')
@@ -11,16 +10,29 @@ export async function getAllSourceTypesFromDB(): Promise<DbSourceType[]> {
   return res
 }
 
+export async function getAllUnitsFromDB(): Promise<DbUnits[]> {
+  const res = await $fetch<DbUnits[]>('/api/units')
+  return res
+}
 
-// export async function getRecipesByIdFromAPI(idMeal: string | number): Promise<MealResponse> {
-//   const res = await $fetch<MealResponse>(`${API}/lookup.php`, {
-//     params: { i: idMeal }
-//   });
-//   return res;
-// }
+export async function getAllIngredientsFromDB(): Promise<{ id: number; name: string | null }[]> {
+  return await $fetch('/api/ingredients')
+}
 
-// export async function getRandomRecipeFromAPI(): Promise<MealResponse> {
-//   const res = await $fetch<MealResponse>(`${API}/random.php`);
-//   return res;
-// }
-
+export async function createRecipe(recipe: DbRecipe, ingredients: DbRecipeIngredients = []) {
+  return await $fetch<{ id: number }>('/api/recipes', {
+    method: 'POST',
+    body: {
+      recipe,
+      ingredients,
+      sources: [
+        {
+          source: recipe.source,
+          source_detail: recipe.source_detail,
+          note: recipe.note,
+          source_type_id: recipe.source_type_id
+        }
+      ]
+    }
+  })
+}

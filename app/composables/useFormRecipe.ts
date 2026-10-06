@@ -1,0 +1,64 @@
+﻿import type { DbRecipe, DbRecipeIngredients } from '~/types/dbRecipe.type'
+
+const DRAFT_KEY = 'recipeDraft'
+
+const emptyRecipe = (): DbRecipe => ({
+  id: 0,
+  title: '',
+  description: '',
+  servings: null,
+  prep_time: null,
+  cook_time: null,
+  category: null,
+  source: '',
+  source_detail: '',
+  updated_at: '',
+  note: '',
+  source_type_id: 0
+})
+
+export function useFormRecipe(initialSourceTypeId?: number | null) {
+  const recipe = ref<DbRecipe>(emptyRecipe())
+  const ingredients = ref<DbRecipeIngredients>([])
+
+  function resetRecipe() {
+    recipe.value = emptyRecipe()
+    ingredients.value = []
+    localStorage.removeItem(DRAFT_KEY)
+  }
+
+  function addIngredient() {
+    ingredients.value.push({ id: 0, recipe_id: 0, ingredient_id: 0, amount: null, unit_id: null })
+  }
+
+  function removeIngredient(index: number) {
+    ingredients.value.splice(index, 1)
+  }
+
+  onMounted(() => {
+    const draft = localStorage.getItem(DRAFT_KEY)
+    if (draft) {
+      try {
+        const parsed = JSON.parse(draft)
+        if (parsed.recipe) recipe.value = parsed.recipe
+        if (parsed.ingredients) ingredients.value = parsed.ingredients
+      } catch {
+        console.warn('Draft konnte nicht geladen werden')
+      }
+    }
+    if (initialSourceTypeId) recipe.value.source_type_id = initialSourceTypeId
+  })
+
+  watch(
+    [recipe, ingredients],
+    () => {
+      localStorage.setItem(
+        DRAFT_KEY,
+        JSON.stringify({ recipe: recipe.value, ingredients: ingredients.value })
+      )
+    },
+    { deep: true }
+  )
+
+  return { recipe, ingredients, resetRecipe, addIngredient, removeIngredient }
+}

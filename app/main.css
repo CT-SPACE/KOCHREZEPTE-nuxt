@@ -79,8 +79,13 @@
   color:rgba(113, 154, 116, 0.4) !important;
 }
 
- .v-table td{
+ .v-table th, .v-table td{
   padding: 0 4px !important;
+}
+
+.v-table tbody tr:hover{
+  cursor: pointer;
+  background-color: rgba(113, 154, 116, 0.4);
 }
 
 .v-data-table-footer__items-per-page > .v-select{
@@ -116,9 +121,6 @@ input:-internal-autofill-selected:focus-visible{
   background-color: linen;
 }
 
-/* nav.v-pagination{
-  display:none !important;
-} */
 i {
   display:none;
   width:0;
@@ -144,18 +146,17 @@ th{
   border-radius:6px;
 }
 
+.v-fab{
+      width: 50px;
+    height: 50px;
+    border: 1px solid green;
+}
 
-
-/* .v-icon,
-.v-pagination__first,
-.v-pagination__navigation,
-.v-btn--variant-plain,
-.v-pagination__navigation .v-btn,
-.v-pagination__navigation .v-icon {
-  /* color: black !important; */ /* Wichtig für das Ausgrauen des Paginators, wenn nicht nutzbar
-  opacity: 1 !important;
-  fill: currentColor !important;
-} */
+.layer button{
+    position:fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+}
 
 
 html,
@@ -176,23 +177,14 @@ body {
   box-sizing: border-box;
   height: 100vh;
 }
-/* .spinner{
-    width: 40px;
-  height: 40px;
-  border: 4px solid #ccc;
-  border-top-color: #90e53a;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-} */
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+body:has(#edit-Flag) {
+  overflow: hidden;
 }
 
-.overlay {
+
+
+/* .overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
@@ -200,7 +192,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-}
+} */
 
 .pad16 {
   padding: 16px;

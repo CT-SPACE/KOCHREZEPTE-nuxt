@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-
+onMounted(() => startAnimation())
 const FRAME_WIDTH = 300
 const FRAME_COUNT = 5
 const FRAME_DURATION = 300
@@ -23,7 +23,7 @@ const startAnimation = () => {
   }, FRAME_DURATION)
 }
 
-onMounted(() => startAnimation())
+
 onUnmounted(() => clearInterval(interval))
 </script>
 

@@ -6,6 +6,8 @@ const modules = import.meta.glob('/assets/icons/*.svg', { eager: true,  import: 
 const icons = Object.values(modules)
 console.log('icons: ', icons)
 
+
+onMounted(() => window.addEventListener('mousemove', onMove))
 // const icons = [
 //   '/assets/icons/fish-plate.svg',
 //   '/assets/icons/pancakes.svg',
@@ -72,7 +74,7 @@ const onMove = (e) => {
 }
 
 
-onMounted(() => window.addEventListener('mousemove', onMove))
+
 onUnmounted(() => window.removeEventListener('mousemove', onMove))
 </script>
 

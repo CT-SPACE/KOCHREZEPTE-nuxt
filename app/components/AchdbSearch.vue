@@ -41,20 +41,20 @@ const category = computed(() => {
   ]
 })
 
-// const ingredientsList = computed(() => {
-//   const ingredients = recipes.value.flatMap((meal) => toArray(meal.ingredients))
+const ingredientsList = computed(() => {
+  const ingredients = recipes.value.flatMap((meal) => toArray(meal.ingredients))
 
-//   return [...new Set(ingredients)].sort()
-// })
+  return [...new Set(ingredients)].sort()
+})
 
 const results = computed(() => {
   const search = normalize(query.value)
   const selectedCategory = normalize(categoryFilter.value)
-  // const selectedIngredient = normalize(ingredientFilter.value)
+  const selectedIngredient = normalize(ingredientFilter.value)
 
   return recipes.value.filter((recipe) => {
     const recipeCategory = normalize(recipe.category)
-    const recipeIngredients = toArray(recipe_ingredients.ingredients_name).map(normalize)
+    const recipeIngredients = toArray(recipeIngredients.ingredient_id).map(normalize)
 
     const matchesSearch =
       !search ||
@@ -66,7 +66,7 @@ const results = computed(() => {
 
     const matchesIngredient = !selectedIngredient || mealIngredients.includes(selectedIngredient)
 
-    return matchesSearch && matchesCategory // && matchesIngredient
+    return matchesSearch && matchesCategory && matchesIngredient
   })
 })
 

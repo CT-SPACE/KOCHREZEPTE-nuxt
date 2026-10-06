@@ -1,0 +1,130 @@
+<template>
+
+     <v-form validate-on="submit" ref="formRef" v-model="isValid">
+    <v-card>
+      <v-card-title>Rezept bearbeiten</v-card-title>
+
+      <!-- Titel in DB.Recipes-->
+      <v-card-text>
+        <v-text-field label="Titel" v-model="localRecipe.title" />
+        <!-- Kategorie in DB.Recipes-->
+        <v-text-field label="Kategorie" v-model="localRecipe.category" />
+
+        <!-- Source_type in DB.Source_types-->
+         <div v-for="(src, i) in localSources" :key="i">
+  <v-select
+    v-model="src.source_type_id"
+    :items="props.sourceTypes"
+    item-title="source_type"
+    item-value="stid"
+    label="Quelle"
+  /></div>
+        <!-- Source in DB.Source_types-->
+
+        <v-text-field label="Zu finden in:" v-model="localRecipe.source" />
+
+        <!-- Source_Detail in DB.Source_types-->
+        <v-text-field label="Wo genau:" v-model="localRecipe.source_detail" />
+
+
+        <v-divider :thickness="6" color="success"> More: </v-divider>
+        <!-- Note in DB.sources-->
+        <v-text-field label="Notiz" v-model="localRecipe.note" />
+
+        <!-- updated_at in DB.Recipes-->
+        <v-text v-model="localRecipe.updated_at"></v-text>
+        
+
+      </v-card-text>
+
+      <v-card-actions>
+        <v-btn color="primary" @click="save">Speichern</v-btn>
+        <v-btn @click="emit('close')">Abbrechen</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-form>
+
+</template>
+
+
+<script setup lang="ts">
+
+import type { DbRecipe, DbSourceType, DbIngredients, DbRecipeIngredients, DbSources, DbUnits  } from '../../../types/dbRecipe.type'
+const emit = defineEmits(['close'])
+let isValid = ref(false)
+const formRef = ref()
+
+const props = defineProps<{
+  recipe: DbRecipe ,
+  sourceTypes: DbSourceType[],
+  units: DbUnits[],
+  ingredients: DbIngredients,
+  recipeIngredients: DbRecipeIngredients,
+  sources: DbSources,
+  editMode: 'edit',
+}>()
+
+const localRecipe = ref<DbRecipe>(
+  props.editMode === 'edit'
+    ? structuredClone(props.recipe!)   // vorhandenes Rezept kopieren
+    : {
+        id: 0,
+        title: '',
+        description: '',
+        servings: null,
+        prep_time: null,
+        cook_time: null,
+        category: null,
+        source: '',
+        source_detail: '',
+        updated_at: '',
+        note: '',
+        source_type_id: 0
+      }
+)
+
+const localRecipeIngredients = ref<DbRecipeIngredients>(
+  structuredClone(props.recipeIngredients)
+)
+
+const localSources = ref<DbSources>(
+  structuredClone(props.sources)
+)
+
+
+watch(localRecipe, (recipeValue: DbRecipe) => {
+  localStorage.setItem('recipeDraft', JSON.stringify(recipeValue))
+}, { deep: true })
+
+async function save() {
+  isValid = await formRef.value?.validate()
+  await updateRecipeFull()
+  localStorage.removeItem('recipeDraft')
+  emit('close')
+}
+
+const getSourceTypeName = (id: number | null) => {
+  if (id == null) return ''
+  const st = props.sourceTypes.find(s => s.stid === id)
+  return st?.source_type ?? ''
+}
+
+async function updateRecipeFull() {
+  const id = localRecipe.value.id
+
+  const payload = {
+    recipe: localRecipe.value,
+    ingredients: localRecipeIngredients.value,
+    sources: localSources.value
+  }
+
+  const res = await $fetch(`/api/recipes/${id}/full`, {
+    method: 'PATCH',
+    body: payload
+  })
+
+  return res
+}
+
+
+</script>
