@@ -91,7 +91,7 @@ onMounted(async () => {
 
 function openEdit(item: DbRecipe) {
     if (!item) return;
-    selected.value = structuredClone(item)
+    selected.value = structuredClone(toRaw(item))
     editMode.value = 'edit'
 }
 
@@ -124,8 +124,8 @@ const headers = [
     },
     { key: 'category', title: 'Kategorie', width: '100px' },
     { key: 'source_type', title: 'Quelle', width: '100px' },
-    { key: 'source', title: 'Zu finden in:', width: '200px' },
-    { key: 'source_detail', title: 'Wo genau: ', width: '100px' },
+    { key: 'source', title: 'Zu finden in:', width: '100px' },
+    { key: 'source_detail', title: 'Wo genau: ', width: '20%' },
 ] as const
 
   import { shallowRef, watch } from 'vue'

@@ -1,6 +1,10 @@
 ﻿import type { DbRecipe, DbRecipeIngredients } from '~/types/dbRecipe.type'
 
-const DRAFT_KEY = 'recipeDraft'
+// Ein Entwurf pro Rezept-ID; ohne ID (neues Rezept) gilt der Basis-Schlüssel
+export const getDraftKey = (id?: number | null) =>
+  id ? `recipeDraft:${id}` : 'recipeDraft'
+
+const DRAFT_KEY = getDraftKey()
 
 const emptyRecipe = (): DbRecipe => ({
   id: 0,

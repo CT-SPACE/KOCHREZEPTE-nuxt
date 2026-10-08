@@ -1,6 +1,7 @@
 ﻿<template>
 
      <v-form validate-on="submit" ref="formRef" v-model="isValid">
+      <!-- <v-btn icon="$close" variant="text" density="compact" @click="$emit('close')" /> -->
     <v-card>
       <v-card-title>Rezept bearbeiten</v-card-title>
 
@@ -36,11 +37,12 @@
         
 
       </v-card-text>
-
+<div class="btn-position">
       <v-card-actions>
         <v-btn color="primary" @click="save">Speichern</v-btn>
         <v-btn @click="emit('close')">Abbrechen</v-btn>
       </v-card-actions>
+    </div>
     </v-card>
   </v-form>
 
@@ -66,7 +68,7 @@ const props = defineProps<{
 
 const localRecipe = ref<DbRecipe>(
   props.editMode === 'edit'
-    ? structuredClone(props.recipe!)   // vorhandenes Rezept kopieren
+    ? structuredClone(toRaw(props.recipe))   // vorhandenes Rezept kopieren
     : {
         id: 0,
         title: '',
@@ -84,23 +86,43 @@ const localRecipe = ref<DbRecipe>(
 )
 
 const localRecipeIngredients = ref<DbRecipeIngredients>(
-  structuredClone(props.recipeIngredients ?? [])
+  structuredClone(toRaw(props.recipeIngredients ?? []))
 )
 
 const localSources = ref<DbSources>(
-  structuredClone(props.sources ?? [])
+  structuredClone(toRaw(props.sources ?? []))
 )
 
 
-watch(localRecipe, (val) => {
-  localStorage.setItem('recipeDraft', JSON.stringify(val))
+const draftKey = getDraftKey(props.recipe.id)
+
+onMounted(() => {
+  const draft = localStorage.getItem(draftKey)
+  if (!draft) return
+  try {
+    const parsed = JSON.parse(draft)
+    if (parsed.recipe) {
+      // updated_at bleibt immer der gespeicherte DB-Stand
+      localRecipe.value = { ...localRecipe.value, ...parsed.recipe, updated_at: props.recipe.updated_at }
+    }
+    if (parsed.sources) localSources.value = parsed.sources
+  } catch {
+    console.warn('Draft konnte nicht geladen werden')
+  }
+})
+
+watch([localRecipe, localSources], () => {
+  localStorage.setItem(
+    draftKey,
+    JSON.stringify({ recipe: localRecipe.value, sources: localSources.value })
+  )
 }, { deep: true })
 
 async function save() {
   const { valid } = await formRef.value.validate()
   if (!valid) return
   await updateRecipeFull()
-  localStorage.removeItem('recipeDraft')
+  localStorage.removeItem(draftKey)
   emit('close')
 }
 
@@ -141,3 +163,12 @@ async function updateRecipeFull() {
 // }
 
 </script>
+
+<style scoped>
+
+.btn-position{
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+</style>

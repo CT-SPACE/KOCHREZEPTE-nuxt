@@ -16,7 +16,7 @@ export async function getAllUnitsFromDB(): Promise<DbUnits[]> {
 }
 
 export async function getAllIngredientsFromDB(): Promise<{ id: number; name: string | null }[]> {
-  return await $fetch('/api/ingredients')
+   return await $fetch<{ id: number; name: string | null }[]>('/api/ingredients')
 }
 
 export async function createRecipe(recipe: DbRecipe, ingredients: DbRecipeIngredients = []) {
@@ -35,4 +35,21 @@ export async function createRecipe(recipe: DbRecipe, ingredients: DbRecipeIngred
       ]
     }
   })
+}
+
+export async function updateRecipeFull() {
+  const id = localRecipe.value.id
+
+  const payload = {
+    recipe: localRecipe.value,
+    ingredients: localRecipeIngredients.value,
+    sources: localSources.value
+  }
+
+  const res = await $fetch(`/api/recipes/${id}/full`, {
+    method: 'PATCH',
+    body: payload
+  })
+
+  return res
 }

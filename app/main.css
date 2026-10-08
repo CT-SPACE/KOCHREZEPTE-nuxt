@@ -153,9 +153,13 @@ th{
 }
 
 .layer button{
-    position:fixed !important;
-    top: 20px !important;
+    
+    bottom: 20px !important;
     right: 20px !important;
+}
+
+.v-form{
+  width:80vw;
 }
 
 
@@ -270,3 +274,8 @@ a:hover {
   color: rgb(246, 246, 245);
 }
 
+@media screen and (max-width: 700px){
+  h1 {
+    margin: 0;
+  }
+}

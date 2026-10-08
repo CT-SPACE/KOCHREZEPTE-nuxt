@@ -32,15 +32,15 @@
         <v-text-field label="Notiz" v-model="localRecipe.note" />
 
         <!-- updated_at in DB.Recipes-->
-        <v-text v-model="localRecipe.updated_at"></v-text>
+        <v-text-field :model-value="updatedAtDate" label="Aktualisiert" readonly disabled />
         
 
       </v-card-text>
 
-      <v-card-actions>
-        <v-btn color="primary" @click="save">Speichern</v-btn>
-        <v-btn @click="emit('close')">Abbrechen</v-btn>
-      </v-card-actions>
+      <!-- <v-card-actions>
+        <div color="primary" @click="save">Speichernnn</div>
+        <div @click="emit('close')">Abbrechen</div>
+      </v-card-actions> -->
     </v-card>
   </v-form>
 
@@ -66,7 +66,7 @@ const props = defineProps<{
 
 const localRecipe = ref<DbRecipe>(
   props.editMode === 'edit'
-    ? structuredClone(props.recipe!)   // vorhandenes Rezept kopieren
+    ? structuredClone(toRaw(props.recipe) )  // vorhandenes Rezept kopieren
     : {
         id: 0,
         title: '',
@@ -84,11 +84,17 @@ const localRecipe = ref<DbRecipe>(
 )
 
 const localRecipeIngredients = ref<DbRecipeIngredients>(
-  structuredClone(props.recipeIngredients)
+  structuredClone(toRaw(props.recipeIngredients))
 )
 
 const localSources = ref<DbSources>(
-  structuredClone(props.sources)
+  structuredClone(toRaw(props.sources))
+)
+
+const updatedAtDate = computed(() =>
+  props.recipe.updated_at
+    ? new Date(props.recipe.updated_at).toLocaleDateString('de-DE')
+    : ''
 )
 
 
@@ -96,12 +102,12 @@ watch(localRecipe, (recipeValue: DbRecipe) => {
   localStorage.setItem('recipeDraft', JSON.stringify(recipeValue))
 }, { deep: true })
 
-async function save() {
-  isValid = await formRef.value?.validate()
-  await updateRecipeFull()
-  localStorage.removeItem('recipeDraft')
-  emit('close')
-}
+// async function save() {
+//   isValid = await formRef.value?.validate()
+//   await updateRecipeFull()
+//   localStorage.removeItem('recipeDraft')
+//   emit('close')
+// }
 
 const getSourceTypeName = (id: number | null) => {
   if (id == null) return ''
@@ -109,22 +115,22 @@ const getSourceTypeName = (id: number | null) => {
   return st?.source_type ?? ''
 }
 
-async function updateRecipeFull() {
-  const id = localRecipe.value.id
+// async function updateRecipeFull() {
+//   const id = localRecipe.value.id
 
-  const payload = {
-    recipe: localRecipe.value,
-    ingredients: localRecipeIngredients.value,
-    sources: localSources.value
-  }
+//   const payload = {
+//     recipe: localRecipe.value,
+//     ingredients: localRecipeIngredients.value,
+//     sources: localSources.value
+//   }
 
-  const res = await $fetch(`/api/recipes/${id}/full`, {
-    method: 'PATCH',
-    body: payload
-  })
+//   const res = await $fetch(`/api/recipes/${id}/full`, {
+//     method: 'PATCH',
+//     body: payload
+//   })
 
-  return res
-}
+//   return res
+// }
 
 
 </script>

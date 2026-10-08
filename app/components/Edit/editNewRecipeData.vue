@@ -1,5 +1,6 @@
 ﻿<template>
   <v-form ref="formRef" validate-on="submit lazy" @submit.prevent="save">
+ 
     <v-card class="pa-4" min-width="500">
       <v-card-title>Neues Rezept</v-card-title>
       <v-card-text>
@@ -11,7 +12,9 @@
             :units="units"
             :ingredient-options="ingredientOptions"
           />
-        </template>
+        </template>   
+        
+       
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" type="submit">Speichern</v-btn>
