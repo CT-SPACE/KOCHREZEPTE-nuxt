@@ -1,20 +1,16 @@
 ﻿<template>
   <v-form ref="formRef" validate-on="submit lazy" @submit.prevent="save">
- 
+
     <v-card class="pa-4" min-width="500">
       <v-card-title>Neues Rezept</v-card-title>
       <v-card-text>
         <RecipeBaseFields v-model="recipe" :source-types="sourceTypes" />
         <template v-if="isPersonal">
           <RecipeFullFields v-model="recipe" />
-          <RecipeIngredientsEditor
-            v-model="ingredients"
-            :units="units"
-            :ingredient-options="ingredientOptions"
-          />
-        </template>   
-        
-       
+          <RecipeIngredientsEditor v-model="ingredients" :units="units" :ingredient-options="ingredientOptions" />
+        </template>
+
+
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" type="submit">Speichern</v-btn>

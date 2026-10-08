@@ -66,4 +66,8 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+
+# Codegraphy / dependencygraph
+.dependencygraph/*
 .codegraphy/*
