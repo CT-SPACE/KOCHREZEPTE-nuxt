@@ -3,11 +3,14 @@
 
     <v-card class="pa-4" min-width="500">
       <v-card-title>Neues Rezept</v-card-title>
+
+      <v-select :items="props.sourceTypes" item-title="source_type" item-value="stid" label="Quelle" />
       <v-card-text>
-        <RecipeBaseFields v-model="recipe" :source-types="sourceTypes" />
+        <EditRecipeDataRecipeBaseFields v-model="recipe" :source-types="sourceTypes" />
         <template v-if="isPersonal">
-          <RecipeFullFields v-model="recipe" />
-          <RecipeIngredientsEditor v-model="ingredients" :units="units" :ingredient-options="ingredientOptions" />
+          <EditRecipeDataRecipeAllFields v-model="recipe" />
+          <EditRecipeDataRecipeIngredientsEditor v-model="ingredients" :units="units"
+            :ingredient-options="ingredientOptions" />
         </template>
 
 

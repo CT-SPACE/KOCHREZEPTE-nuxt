@@ -71,3 +71,7 @@ __screenshots__/
 # Codegraphy / dependencygraph
 .dependencygraph/*
 .codegraphy/*
+
+# backups 
+
+backups/*

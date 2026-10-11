@@ -51,7 +51,7 @@
 
 <script setup>
 
-import '@/main.css'
+import './main.css'
 import '@mdi/font/css/materialdesignicons.css'
 import Header from '@/components/Header.vue'
 import RecipeSearchOverlay from '@/components/RecipeSearchOverlay.vue'

@@ -43,14 +43,23 @@
 }
 
 .v-field__input {
-  padding: 5px 16px !important;
+  padding: 12px 16px 3px 16px !important;
   color:var(--v-theme-on-surface);
     box-sizing: border-box;
     display:flex;
     justify-content:center;
     align-items: center;
+    font-size: 1rem;
   min-height: 40px !important;
   border: none;
+}
+
+.v-input--density-default .v-field__input{
+  background-color:unset !important;
+}
+
+.v-label.v-field-label--floating{
+  top:0 !important;
 }
 
 .v-field__append-inner, .v-input__details{
@@ -64,7 +73,7 @@
 
 .v-input__control{
   height:50px !important;
-  background-color:linen;
+  /* background-color:linen; */
   
 }
 
@@ -142,8 +151,9 @@ th{
 }
 
 .v-text-field{
-  background-color: linen;
+  /* background-color: linen; */
   border-radius:6px;
+  width:90%;
 }
 
 .v-fab{
@@ -152,11 +162,11 @@ th{
     border: 1px solid green;
 }
 
-.layer button{
+/* .layer button{
     
     bottom: 20px !important;
     right: 20px !important;
-}
+} */
 
 .v-form{
   width:80vw;

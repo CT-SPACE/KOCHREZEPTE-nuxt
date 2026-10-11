@@ -10,6 +10,13 @@ CREATE TABLE IF NOT EXISTS recipes (
   category TEXT
 );
 
+CREATE TABLE IF NOT EXISTS units (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  abbreviation TEXT,
+  created_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS source_types (
   stid INTEGER PRIMARY KEY AUTOINCREMENT,
   source_type TEXT NOT NULL
@@ -36,5 +43,6 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
   recipe_id INTEGER NOT NULL REFERENCES recipes(id),
   ingredient_id INTEGER NOT NULL REFERENCES ingredients(id),
   amount TEXT,
-  unit TEXT
+  unit_id INTEGER NOT NULL REFERENCES units(id)
 );
+

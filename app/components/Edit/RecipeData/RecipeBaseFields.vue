@@ -1,136 +1,48 @@
 <template>
-
-     <v-form validate-on="submit" ref="formRef" v-model="isValid">
-    <v-card>
-      <v-card-title>Rezept bearbeiten</v-card-title>
-
-      <!-- Titel in DB.Recipes-->
-      <v-card-text>
-        <v-text-field label="Titel" v-model="localRecipe.title" />
-        <!-- Kategorie in DB.Recipes-->
-        <v-text-field label="Kategorie" v-model="localRecipe.category" />
-
-        <!-- Source_type in DB.Source_types-->
-         <div v-for="(src, i) in localSources" :key="i">
-  <v-select
-    v-model="src.source_type_id"
-    :items="props.sourceTypes"
+      <v-select
+    v-model="recipe.source_type_id"
+    :items="sourceTypes"
     item-title="source_type"
     item-value="stid"
     label="Quelle"
-  /></div>
-        <!-- Source in DB.Source_types-->
+    :rules="[rules.required]"
+    class="quelle">
+<template #item="{ props: itemProps, item }">
+    <v-list-item v-bind="itemProps" :prepend-icon="item.raw.icon ?? 'mdi-help-circle-outline'" />
+</template>
+<template #selection="{ item }">
+    <v-icon :icon="item.raw.icon ?? 'mdi-help-circle-outline'" class="mr-2" />
+    {{  item.title }}
+</template>
+</v-select>
 
-        <v-text-field label="Zu finden in:" v-model="localRecipe.source" />
+  <v-text-field
+    v-model="recipe.title"
+    label="Gericht"
+    :rules="[rules.required, rules.minLength(3)]"
+  />
+  <v-text-field v-model="recipe.category" label="Kategorie" />
 
-        <!-- Source_Detail in DB.Source_types-->
-        <v-text-field label="Wo genau:" v-model="localRecipe.source_detail" />
-
-
-        <v-divider :thickness="6" color="success"> More: </v-divider>
-        <!-- Note in DB.sources-->
-        <v-text-field label="Notiz" v-model="localRecipe.note" />
-
-        <!-- updated_at in DB.Recipes-->
-        <v-text-field :model-value="updatedAtDate" label="Aktualisiert" readonly disabled />
-        
-
-      </v-card-text>
-
-      <!-- <v-card-actions>
-        <div color="primary" @click="save">Speichernnn</div>
-        <div @click="emit('close')">Abbrechen</div>
-      </v-card-actions> -->
-    </v-card>
-  </v-form>
-
+  <v-text-field v-model="recipe.source" label="Zu finden in:" />
+  <v-text-field v-model="recipe.source_detail" label="Wo genau:" />
 </template>
 
-
 <script setup lang="ts">
+import type { DbRecipe, DbSourceType } from '~/types/dbRecipe.type'
 
-import type { DbRecipe, DbSourceType, DbIngredients, DbRecipeIngredients, DbSources, DbUnits  } from '../../../types/dbRecipe.type'
-const emit = defineEmits(['close'])
-let isValid = ref(false)
-const formRef = ref()
+const recipe = defineModel<DbRecipe>({ required: true })
+const props = defineProps<{ sourceTypes: DbSourceType[] }>()
 
-const props = defineProps<{
-  recipe: DbRecipe ,
-  sourceTypes: DbSourceType[],
-  units: DbUnits[],
-  ingredients: DbIngredients,
-  recipeIngredients: DbRecipeIngredients,
-  sources: DbSources,
-  editMode: 'edit',
-}>()
+const rules = useFormRules()
+</script>
 
-const localRecipe = ref<DbRecipe>(
-  props.editMode === 'edit'
-    ? structuredClone(toRaw(props.recipe) )  // vorhandenes Rezept kopieren
-    : {
-        id: 0,
-        title: '',
-        description: '',
-        servings: null,
-        prep_time: null,
-        cook_time: null,
-        category: null,
-        source: '',
-        source_detail: '',
-        updated_at: '',
-        note: '',
-        source_type_id: 0
-      }
-)
-
-const localRecipeIngredients = ref<DbRecipeIngredients>(
-  structuredClone(toRaw(props.recipeIngredients))
-)
-
-const localSources = ref<DbSources>(
-  structuredClone(toRaw(props.sources))
-)
-
-const updatedAtDate = computed(() =>
-  props.recipe.updated_at
-    ? new Date(props.recipe.updated_at).toLocaleDateString('de-DE')
-    : ''
-)
-
-
-watch(localRecipe, (recipeValue: DbRecipe) => {
-  localStorage.setItem('recipeDraft', JSON.stringify(recipeValue))
-}, { deep: true })
-
-// async function save() {
-//   isValid = await formRef.value?.validate()
-//   await updateRecipeFull()
-//   localStorage.removeItem('recipeDraft')
-//   emit('close')
-// }
-
-const getSourceTypeName = (id: number | null) => {
-  if (id == null) return ''
-  const st = props.sourceTypes.find(s => s.stid === id)
-  return st?.source_type ?? ''
+<style scoped>
+.quelle {
+    width: 120px;
+    margin:10px;
+    position: relative;
+    top:-40px;
+    align-self: right;
 }
 
-// async function updateRecipeFull() {
-//   const id = localRecipe.value.id
-
-//   const payload = {
-//     recipe: localRecipe.value,
-//     ingredients: localRecipeIngredients.value,
-//     sources: localSources.value
-//   }
-
-//   const res = await $fetch(`/api/recipes/${id}/full`, {
-//     method: 'PATCH',
-//     body: payload
-//   })
-
-//   return res
-// }
-
-
-</script>
+</style>

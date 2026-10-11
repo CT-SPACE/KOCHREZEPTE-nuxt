@@ -6,7 +6,8 @@ export default defineEventHandler(async (event) => {
       `
     SELECT
       stid,
-      source_type
+      source_type,
+      icon
     FROM source_types
   `,
     )

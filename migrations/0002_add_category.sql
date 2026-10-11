@@ -1,2 +1,0 @@
--- Migration already applied; no-op
--- ALTER TABLE recipes ADD COLUMN category TEXT;
