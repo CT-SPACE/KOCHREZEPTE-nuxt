@@ -12,7 +12,7 @@ SELECT
   r.prep_time,
   r.cook_time,
   r.category,
-
+  r.updated_at,
   s.source,
   s.source_detail,
   s.note,

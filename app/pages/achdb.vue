@@ -41,11 +41,12 @@
     </v-card>
     <div class="newRecipeBtn">
         <v-fab v-if="!editMode" icon="mdi-plus" location="bottom end" absolute offset>
+            <v-icon>{{  open ? 'mdi-close' : 'mdi-plus' }}</v-icon>
             <v-speed-dial v-model="open" location="top center" transition="slide-y-reverse-transition"
                 activator="parent">
-                <v-btn v-for="st in sourceTypes" :key="st.stid" icon size="small" :title="st.source_type"
+                <v-btn v-for="st in sourceTypes" :key="st.stid" icon size="default" :title="st.source_type"
                     @click="openNew(st.stid)">
-                    <v-icon :icon="sourceIcons[st.source_type] ?? 'mdi-file-document-outline'" />
+                    <v-icon :icon="st.icon ?? 'mdi-file-document-outline'" />
                 </v-btn>
             </v-speed-dial>
         </v-fab>
@@ -71,12 +72,12 @@ const selected = ref<DbRecipe | null>(null)
 const ingredientOptions = ref<{ id: number; name: string | null }[]>([])
 const newSourceTypeId = ref<number | null>(null)
 
-const sourceIcons: Record<string, string> = {
-    Magazin: 'mdi-newspaper-variant-outline',
-    Buch: 'mdi-book-open-page-variant-outline',
-    Internet: 'mdi-web',
-    'Persönlich': 'mdi-account-heart-outline'
-}
+// const sourceIcons: Record<string, string> = {
+//     Magazin: 'mdi-newspaper-variant-outline',
+//     Buch: 'mdi-book-open-page-variant-outline',
+//     Internet: 'mdi-web',
+//     'Persönlich': 'mdi-account-heart-outline'
+// }
 
 onMounted(async () => {
     start()
@@ -155,11 +156,11 @@ const headers = [
 }
 
 .newRecipeBtn {
-    width: 4px;
-    position: relative;
+    width: 40px;
+    position: fixed;
     bottom: 60px;
-    height: 4px;
-    right: 120px;
+    height: 40px;
+    right: 50px;
     z-index: 110;
 }
 

@@ -1,20 +1,13 @@
 <template>
-  <div v-for="(ing, i) in ingredients" :key="i" class="d-flex ga-2 align-center">
-    <v-select
-      v-model="ing.ingredient_id"
-      :items="ingredientOptions"
-      item-title="name"
-      item-value="id"
-      label="Zutat"
-      density="compact"
-      variant="outlined"
-    />
+  <div v-for="(ing, i) in ingredients" :key="i" class="d-flex ga-2 align-center zutaten-row">
+
     <v-text-field
       v-model.number="ing.amount"
       type="number"
       label="Menge"
       density="compact"
       variant="outlined"
+      class="zutat menge"
     />
     <v-select
       v-model="ing.unit_id"
@@ -24,8 +17,19 @@
       label="Einheit"
       density="compact"
       variant="outlined"
+      class="zutat unit"
+    /> 
+       <v-select
+      v-model="ing.ingredient_id"
+      :items="ingredientOptions"
+      item-title="name"
+      item-value="id"
+      label="Zutat"
+      density="compact"
+      variant="outlined"
+      class="zutat"
     />
-    <v-btn icon="mdi-delete" variant="text" density="compact" @click="ingredients.splice(i, 1)" />
+    <v-btn icon="mdi-close" variant="text" density="compact" size="small" @click="ingredients.splice(i, 1)" />
   </div>
   <v-btn prepend-icon="mdi-plus" variant="tonal" @click="add">Zutat</v-btn>
 </template>
@@ -43,3 +47,15 @@ function add() {
   ingredients.value.push({ id: 0, recipe_id: 0, ingredient_id: 0, amount: null, unit_id: null })
 }
 </script>
+
+<style scoped>
+
+.zutaten-row{
+    margin-top:10px;
+    /* height: 40px !important; */
+}
+
+.zutat input{
+    background-color: white !important;
+}
+</style>

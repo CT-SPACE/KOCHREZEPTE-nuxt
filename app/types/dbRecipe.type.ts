@@ -16,7 +16,7 @@ export interface DbRecipe {
 export interface DbSourceTypes {
   stid: number
   source_type: string
-  icon: string | null 
+  icon: string | null
 }
 
 export type DbSourceType = DbSourceTypes

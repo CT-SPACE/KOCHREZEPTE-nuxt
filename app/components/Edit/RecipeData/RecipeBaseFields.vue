@@ -38,11 +38,11 @@ const rules = useFormRules()
 
 <style scoped>
 .quelle {
-    width: 120px;
-    margin:10px;
-    position: relative;
-    top:-40px;
-    align-self: right;
+    /* width: 140px !important;
+    right: 30px;
+    position: absolute;
+    top: 10px; */
+    background-color: #D7EBAD;
 }
 
 </style>

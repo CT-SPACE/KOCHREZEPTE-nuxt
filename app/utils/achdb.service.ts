@@ -19,37 +19,70 @@ export async function getAllIngredientsFromDB(): Promise<{ id: number; name: str
    return await $fetch<{ id: number; name: string | null }[]>('/api/ingredients')
 }
 
+function buildRecipePayload(recipe: DbRecipe, ingredients: DbRecipeIngredients = []) {
+  return {
+    recipe,
+    ingredients,
+    sources: [
+      {
+        source: recipe.source,
+        source_detail: recipe.source_detail,
+        note: recipe.note,
+        source_type_id: recipe.source_type_id
+      }
+    ]
+  }
+}
+
 export async function createRecipe(recipe: DbRecipe, ingredients: DbRecipeIngredients = []) {
   return await $fetch<{ id: number }>('/api/recipes', {
     method: 'POST',
-    body: {
-      recipe,
-      ingredients,
-      sources: [
-        {
-          source: recipe.source,
-          source_detail: recipe.source_detail,
-          note: recipe.note,
-          source_type_id: recipe.source_type_id
-        }
-      ]
-    }
+    body: buildRecipePayload(recipe, ingredients)
   })
 }
 
-export async function updateRecipeFull() {
-  const id = localRecipe.value.id
-
-  const payload = {
-    recipe: localRecipe.value,
-    ingredients: localRecipeIngredients.value,
-    sources: localSources.value
-  }
-
-  const res = await $fetch(`/api/recipes/${id}/full`, {
+export async function updateRecipeFull(recipe: DbRecipe, ingredients: DbRecipeIngredients = []) {
+  return await $fetch<{ id: number }>(`/api/recipes/${recipe.id}/full`, {
     method: 'PATCH',
-    body: payload
+    body: buildRecipePayload(recipe, ingredients)
   })
-
-  return res
 }
+
+// export async function createRecipe(recipe: DbRecipe, ingredients: DbRecipeIngredients = []) {
+//   return await $fetch<{ id: number }>('/api/recipes', {
+//     method: 'POST',
+//     body: {
+//       recipe,
+//       ingredients,
+//       sources: [
+//         {
+//           source: recipe.source,
+//           source_detail: recipe.source_detail,
+//           note: recipe.note,
+//           source_type_id: recipe.source_type_id
+//         }
+//       ]
+//     }
+//   })
+// }
+
+// export async function updateRecipeFull(
+//   recipe: DbRecipe,
+//   ingredients: DbRecipeIngredients = []
+// ) {
+//   return await $fetch<{ id: number }>(`/api/recipes/${recipe.id}/full`, {
+//     method: 'PATCH',
+//     body: {
+//       recipe,
+//       ingredients,
+//       sources: [
+//         {
+//           source: recipe.source,
+//           source_detail: recipe.source_detail,
+//           note: recipe.note,
+//           source_type_id: recipe.source_type_id
+//         }
+//       ]
+//     }
+//   })
+// }

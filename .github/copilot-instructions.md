@@ -11,7 +11,7 @@ Do not mix these two: components/composables under the "API" naming (`api.servic
 
 ### D1 database (Cloudflare)
 
-- Schema lives in [migrations/](../migrations): `0001_init.sql` (initial schema), `0002_add_category.sql`, `seed.sql`.
+- Schema lives in [migrations/](../migrations): `0001_init.sql` (initial schema), `0002_add_source_type_icon.sql`.
 - **Migrations are append-only and tracked by filename in D1's internal `d1_migrations` table.** Editing an already-applied migration file (e.g. adding a column to `0001_init.sql`) has no effect on any database where it already ran — `CREATE TABLE IF NOT EXISTS` is a no-op if the table exists. Always add a new numbered migration file (`000N_description.sql`) for schema changes instead of editing prior ones.
 - Apply migrations: `npx wrangler d1 migrations apply ACHDB --local` (local) or add `--remote` for the live database.
 - Inspect schema: `npx wrangler d1 execute ACHDB --local --command "PRAGMA table_info(recipes);"`.

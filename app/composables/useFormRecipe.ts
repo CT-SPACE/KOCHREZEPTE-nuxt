@@ -24,8 +24,10 @@ const emptyRecipe = (): DbRecipe => ({
 export function useFormRecipe(initialSourceTypeId?: number | null) {
   const recipe = ref<DbRecipe>(emptyRecipe())
   const ingredients = ref<DbRecipeIngredients>([])
+  let skipDraftHandling = false
 
   function resetRecipe() {
+    skipDraftHandling = true
     recipe.value = emptyRecipe()
     ingredients.value = []
     localStorage.removeItem(DRAFT_KEY)
@@ -56,6 +58,7 @@ export function useFormRecipe(initialSourceTypeId?: number | null) {
   watch(
     [recipe, ingredients],
     () => {
+      if (skipDraftHandling) { skipDraftHandling = false; return }
       localStorage.setItem(
         DRAFT_KEY,
         JSON.stringify({ recipe: recipe.value, ingredients: ingredients.value })
