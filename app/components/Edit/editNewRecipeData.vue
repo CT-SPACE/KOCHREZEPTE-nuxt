@@ -1,4 +1,5 @@
 ﻿<template>
+  <v-card class="recipe-card">
   <v-form ref="formRef" validate-on="submit lazy" @submit.prevent="save">
 
     <v-card class="pa-4" min-width="500">
@@ -9,19 +10,24 @@
         <EditRecipeDataRecipeBaseFields v-model="recipe" :source-types="sourceTypes" />
         <template v-if="isPersonal">
           <EditRecipeDataRecipeAllFields v-model="recipe" />
+          <v-divider></v-divider>
           <EditRecipeDataRecipeIngredientsEditor v-model="ingredients" :units="units"
             :ingredient-options="ingredientOptions" />
+          <EditRecipeDataPreparationSteps v-model="recipe" />
+          
         </template>
 
 
       </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" type="submit">Speichern</v-btn>
-        <v-btn @click="resetRecipe">Leeren</v-btn>
-        <v-btn @click="cancel()">Abbrechen</v-btn>
-      </v-card-actions>
+
     </v-card>
   </v-form>
+          <v-card-actions class="actions-fixed">
+        <v-btn color="primary" type="submit">SAVE</v-btn>
+        <v-btn @click="resetRecipe">Empty</v-btn>
+        <v-btn @click="cancel()">Cancel</v-btn>
+      </v-card-actions>
+      </v-card>
 </template>
 
 <script setup lang="ts">
@@ -35,7 +41,7 @@ const props = withDefaults(
   defineProps<{
     sourceTypes: DbSourceType[]
     units: DbUnits[]
-    ingredientOptions?: { id: number; name: string | null }[]
+    ingredientOptions?: { id: number; name: string }[]
     initialSourceTypeId?: number | null
   }>(),
   { ingredientOptions: () => [], initialSourceTypeId: null }
@@ -61,3 +67,26 @@ function cancel(){
   emit('close')
 }
 </script>
+
+<style>
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+}
+
+.actions-fixed{
+    width:100%;
+    border-top: 1px solid #ddd;
+  padding: 12px 30px;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.actions-fixed button {
+  border: 1px solid #f6f6f6
+}
+
+
+</style>

@@ -34,7 +34,7 @@ export type DbRecipeIngredients = DbRecipeIngredient[]
 
 export interface DbIngredients {
   id: number
-  name: string | null
+  name: string 
   type: string[]
 }
 

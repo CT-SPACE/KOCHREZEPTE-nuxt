@@ -112,9 +112,9 @@
  */
 
 .v-input__details{
-      height: 4px;
-    min-height: 0;
-     padding-top: 0;
+      height: 4px !important;
+    min-height: 0 !important;
+     padding-top: 0 !important;
 }
 
 /* 
@@ -124,9 +124,12 @@
 } */
 
 
-/* .v-form{
+.v-form{
   width:80vw;
-} */
+  overflow-y: auto;
+  max-height: 1000px;
+  height: 90vh;
+}
 
  .v-table th, .v-table td{
   padding: 0 4px !important;

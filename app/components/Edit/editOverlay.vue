@@ -23,6 +23,7 @@
     @close="$emit('close')"
     />
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -36,7 +37,7 @@ const props = defineProps<{
   recipeIngredients?: DbRecipeIngredients
   sources?: DbSources
   ingredients?: DbIngredients
-  ingredientOptions?: { id: number; name: string | null }[]
+  ingredientOptions?: { id: number; name: string }[]
   initialSourceTypeId?: number | null
   sourceTypes: DbSourceType[]
   units: DbUnits[]

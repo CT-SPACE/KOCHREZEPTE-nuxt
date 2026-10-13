@@ -69,7 +69,7 @@ const search = ref('')
 const editMode = ref<null | 'edit' | 'new'>(null)
 const { loading, start, stop } = useLoading()
 const selected = ref<DbRecipe | null>(null)
-const ingredientOptions = ref<{ id: number; name: string | null }[]>([])
+const ingredientOptions = ref<{ id: number; name: string }[]>([])
 const newSourceTypeId = ref<number | null>(null)
 
 // const sourceIcons: Record<string, string> = {
