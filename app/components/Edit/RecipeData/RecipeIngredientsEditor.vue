@@ -38,22 +38,18 @@
 import type { DbRecipeIngredients, DbUnits } from '~/types/dbRecipe.type'
 
 const ingredients = defineModel<DbRecipeIngredients>({ required: true })
-defineProps<{
+
+    defineProps<{
   units: DbUnits[]
   ingredientOptions: { id: number; name: string | null }[]
 }>()
 
 function add() {
-  ingredients.value.push({ id: 0, recipe_id: 0, ingredient_id: 0, amount: null, unit_id: null })
+  ingredients.value.push({ id: 0, recipe_id: 0, ingredient_id: 0 as unknown as number, amount: null, unit_id: null })
 }
 </script>
 
 <style scoped>
-
-.zutaten-row{
-    margin-top:10px;
-    /* height: 40px !important; */
-}
 
 .zutat input{
     background-color: white !important;

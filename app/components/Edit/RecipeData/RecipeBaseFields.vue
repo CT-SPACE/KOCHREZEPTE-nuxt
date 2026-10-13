@@ -37,12 +37,6 @@ const rules = useFormRules()
 </script>
 
 <style scoped>
-.quelle {
-    /* width: 140px !important;
-    right: 30px;
-    position: absolute;
-    top: 10px; */
-    background-color: #D7EBAD;
-}
+
 
 </style>

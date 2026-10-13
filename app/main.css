@@ -36,13 +36,13 @@
 
 :root {
   --v-input-control-height: 30px;
-  --v-field-input-padding-top: 8px;
-  --v-field-input-padding-bottom: 8px;
+  --v-field-input-padding-top: 6px;
+  --v-field-input-padding-bottom: 6px;
   /* --v-theme-on-surface: #000; */
  
 }
 
-.v-input{
+/* .v-input{
   width:100% !important;
 }
 
@@ -66,9 +66,7 @@
   top:0 !important;
 }
 
-.v-field__append-inner, .v-input__details{
-    display: none !important;
-}
+
 
 .v-input__details{
     display:none !important;
@@ -77,7 +75,6 @@
 
 .v-input__control{
   height:50px !important;
-  /* background-color:linen; */
   
 }
 
@@ -86,16 +83,50 @@
   -webkit-text-fill-color: inherit !important;
 }
 
-.v-list{
-  overflow: hidden !important;
-}
-.v-list-item{
-  min-height:20px !important;
+
+
+ .v-table th, .v-table td{
+  padding: 0 4px !important;
 }
 
-.v-list-item:hover{
-  color:rgba(113, 154, 116, 0.4) !important;
+.v-table tbody tr:hover{
+  cursor: pointer;
+  background-color: rgba(113, 154, 116, 0.4);
 }
+
+.v-data-table-footer__items-per-page > .v-select{
+  width:unset !important;
+}
+
+
+
+
+.v-field{
+  height:50px !important;
+  padding:0 !important;
+   box-sizing:border-box;
+}
+
+
+
+ */
+
+.v-input__details{
+      height: 4px;
+    min-height: 0;
+     padding-top: 0;
+}
+
+/* 
+.v-text-field{
+  border-radius:6px;
+  width:90%;
+} */
+
+
+/* .v-form{
+  width:80vw;
+} */
 
  .v-table th, .v-table td{
   padding: 0 4px !important;
@@ -122,6 +153,16 @@
 
 }
 
+/* .v-list{
+  overflow: hidden !important;
+} */
+.v-list-item{
+  min-height:20px !important;
+}
+
+.v-list-item:hover{
+  color:rgba(113, 154, 116, 0.4) !important;
+}
 
 .v-skeleton-loader__bone::after {
     animation: loading 1.5s infinite;
@@ -134,6 +175,11 @@ color-mix(in srgb, rgb(22 114 13) 0%, transparent));
 .zutat input{
     background-color: white !important;
     border:none;
+}
+
+.quelle .v-input__control {
+
+    background-color: #D7EBAD !important;
 }
 
 /* input:-internal-autofill-selected {
@@ -165,39 +211,6 @@ th{
       font-weight: 700 !important;
 }
 
-/* .v-field__field{
-  display:flex !important;
-  align-items:center !important;
-} */
-
-.v-field{
-  height:50px !important;
-  padding:0 !important;
-   box-sizing:border-box;
-}
-
-.v-text-field{
-  /* background-color: linen; */
-  border-radius:6px;
-  width:90%;
-}
-
-/* .v-fab{
-      width: 50px;
-    height: 50px;
-    border: 1px solid green;
-} */
-
-/* .layer button{
-    
-    bottom: 20px !important;
-    right: 20px !important;
-} */
-
-.v-form{
-  width:80vw;
-}
-
 
 html,
 body {
@@ -223,17 +236,6 @@ body:has(#edit-Flag) {
 }
 
 
-
-/* .overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-} */
-
 .pad16 {
   padding: 16px;
 }
@@ -255,7 +257,6 @@ textarea {
 
 input {
   width: 30vw;
-  background-color: linen;
   min-width: 180px;
   border-radius: 6px;
 }

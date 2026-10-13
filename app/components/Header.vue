@@ -4,7 +4,7 @@
     <div class="head">
       <h1>Kochrezepte</h1>
       <form class="quick-search" @submit.prevent="handleSubmit">
-        <input v-model.trim="query" type="text" placeholder="Rezept, Zutat oder Land suchen..." />
+        <input v-model.trim="query" type="text" class="globalSearch" placeholder="Rezept, Zutat oder Land suchen..." />
         <button type="submit">Suchen</button>
       </form>
     </div>
@@ -67,6 +67,10 @@ h1 {
 .quick-search button {
   padding: 8px 14px;
   cursor: pointer;
+}
+
+.globalSearch{
+  background-color: linen !important;
 }
 
 @media (max-width: 700px) {
