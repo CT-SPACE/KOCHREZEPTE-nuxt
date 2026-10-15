@@ -11,10 +11,11 @@
         <template v-if="isPersonal">
           <EditRecipeDataRecipeAllFields v-model="recipe" />
           <v-divider></v-divider>
+          <div class="zubereitung">
           <EditRecipeDataRecipeIngredientsEditor v-model="ingredients" :units="units"
             :ingredient-options="ingredientOptions" />
           <EditRecipeDataPreparationSteps v-model="recipe" />
-          
+          </div>
         </template>
 
 
@@ -24,7 +25,7 @@
   </v-form>
           <v-card-actions class="actions-fixed">
         <v-btn color="primary" type="submit">SAVE</v-btn>
-        <v-btn @click="resetRecipe">Empty</v-btn>
+        <v-btn @click="resetRecipe">Clear</v-btn>
         <v-btn @click="cancel()">Cancel</v-btn>
       </v-card-actions>
       </v-card>
@@ -88,5 +89,15 @@ function cancel(){
   border: 1px solid #f6f6f6
 }
 
+.v-divider{
+  color: green;
+  margin: 5px 10px;
+}
 
+.zubereitung{
+  margin: 8px 0;
+  border: 1px solid gray ;
+  border-radius: 10px;
+  padding: 8px 5px;
+}
 </style>

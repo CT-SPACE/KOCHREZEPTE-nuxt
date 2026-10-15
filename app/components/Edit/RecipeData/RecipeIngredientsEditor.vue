@@ -19,16 +19,7 @@
       variant="outlined"
       class="zutat unit"
     /> 
-       <!-- <v-select
-      v-model="ing.ingredient_id"
-      :items="ingredientOptions"
-      item-title="name"
-      item-value="id"
-      label="Zutat"
-      density="compact"
-      variant="outlined"
-      class="zutat"
-    /> -->
+
 
     <v-combobox
       :model-value="getIngredient(ing.ingredient_id)"
@@ -50,9 +41,9 @@
         </v-list-item>
       </template>
     </v-combobox>
-    <v-btn icon="mdi-close" variant="text" density="compact" size="small" @click="ingredients.splice(i, 1)" />
+    <v-btn v-if="ingredients.length > 1" icon="mdi-close" variant="text" density="compact" size="20" @click="ingredients.splice(i, 1)" />
   </div>
-  <v-btn prepend-icon="mdi-plus" variant="tonal" @click="add">Zutat</v-btn>
+ <v-btn  prepend-icon="mdi-plus" variant="tonal" @click="add" class="zub-btn">Zutat</v-btn>
 </template>
 
 <script setup lang="ts">
@@ -130,7 +121,9 @@ function add() {
 </script>
 
 <style scoped>
-
+.zutaten-row{
+  margin-top:4px;
+}
 .zutat input{
     background-color: white !important;
 }

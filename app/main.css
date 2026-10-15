@@ -42,74 +42,6 @@
  
 }
 
-/* .v-input{
-  width:100% !important;
-}
-
-.v-field__input {
-  padding: 12px 16px 3px 16px !important;
-  color:var(--v-theme-on-surface);
-    box-sizing: border-box;
-    display:flex;
-    justify-content:center;
-    align-items: center;
-    font-size: 1rem;
-  min-height: 40px !important;
-  border: none;
-}
-
-.v-input--density-default .v-field__input{
-  background-color:unset !important;
-}
-
-.v-label.v-field-label--floating{
-  top:0 !important;
-}
-
-
-
-.v-input__details{
-    display:none !important;
-    background-color:white;
-}
-
-.v-input__control{
-  height:50px !important;
-  
-}
-
-.v-field input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
-  -webkit-text-fill-color: inherit !important;
-}
-
-
-
- .v-table th, .v-table td{
-  padding: 0 4px !important;
-}
-
-.v-table tbody tr:hover{
-  cursor: pointer;
-  background-color: rgba(113, 154, 116, 0.4);
-}
-
-.v-data-table-footer__items-per-page > .v-select{
-  width:unset !important;
-}
-
-
-
-
-.v-field{
-  height:50px !important;
-  padding:0 !important;
-   box-sizing:border-box;
-}
-
-
-
- */
 
 .v-input__details{
       height: 4px !important;
@@ -117,11 +49,6 @@
      padding-top: 0 !important;
 }
 
-/* 
-.v-text-field{
-  border-radius:6px;
-  width:90%;
-} */
 
 
 .v-form{
@@ -156,9 +83,6 @@
 
 }
 
-/* .v-list{
-  overflow: hidden !important;
-} */
 .v-list-item{
   min-height:20px !important;
 }
@@ -175,13 +99,34 @@ color-mix(in srgb, rgb(80 239 19) 30%, transparent),
 color-mix(in srgb, rgb(22 114 13) 0%, transparent));
 }
 
+.zub-btn{
+  width:100%;
+  background-color:#d0f286 !important;
+  margin-bottom: 10px;
+}
 .zutat input{
     background-color: white !important;
     border:none;
 }
 
-.quelle .v-input__control {
+.stepRow .v-field__input{
+  background-color:#dfdcdc !important;
+  border-radius: 8px 8px 0 0 !important;
+  border-color: transparent !important;
+    box-shadow: none !important;
+    mask-image: none !important;
+}
 
+.stepRow .v-field__field label{
+  position:absolute;
+  top: -0px !important;
+  font-weight: 700;
+  background-color: #dfdcdc;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.quelle .v-input__control {
+    border-radius: 8px 8px 0 0;
     background-color: #D7EBAD !important;
 }
 
@@ -214,6 +159,33 @@ th{
       font-weight: 700 !important;
 }
 
+/* WebKit (Chrome, Edge, Safari) */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background-color: #369636;
+  border-radius: 3px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+html, body, * {
+  scrollbar-width: thin;
+  scrollbar-color: #38a14a transparent;
+}
+
 
 html,
 body {
@@ -224,9 +196,7 @@ body {
 
 html {
   overflow-y: scroll;
-  /* color: #000; */
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f5f5f5;
+  scrollbar-color: #63b757 #f5f5f5;
 }
 
 body {
@@ -252,16 +222,10 @@ button,
 select,
 textarea {
   padding: 8px;
-  border: 1px solid green;
+  border: 1px solid #63b757;
   font-size: 0.8rem;
-  color: green;
-  border-radius: 8px;
-}
-
-input {
-  width: 30vw;
-  min-width: 180px;
-  border-radius: 6px;
+  color: #63b757;
+  border-radius: 6px 6px 0px 0;
 }
 
 input:focus {
@@ -273,6 +237,7 @@ input:focus {
 
 button {
   background-color: green;
+  border: 1px solid lightgrey !important;
   font-weight: bold;
   color: white;
   cursor: pointer;

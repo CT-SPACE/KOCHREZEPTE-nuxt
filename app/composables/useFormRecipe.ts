@@ -1,4 +1,4 @@
-﻿import type { DbRecipe, DbRecipeIngredients } from '~/types/dbRecipe.type'
+﻿import type { DbRecipe, DbRecipeIngredients, DbSourceTypes } from '~/types/dbRecipe.type'
 
 // Ein Entwurf pro Rezept-ID; ohne ID (neues Rezept) gilt der Basis-Schlüssel
 export const getDraftKey = (id?: number | null) =>
@@ -24,11 +24,14 @@ const emptyRecipe = (): DbRecipe => ({
 export function useFormRecipe(initialSourceTypeId?: number | null) {
   const recipe = ref<DbRecipe>(emptyRecipe())
   const ingredients = ref<DbRecipeIngredients>([])
+
   let skipDraftHandling = false
 
   function resetRecipe() {
+    
     skipDraftHandling = true
-    recipe.value = emptyRecipe()
+    const currentSourceTypeId = recipe.value.source_type_id
+    recipe.value = { ...emptyRecipe(), source_type_id: currentSourceTypeId }
     ingredients.value = []
     localStorage.removeItem(DRAFT_KEY)
   }
