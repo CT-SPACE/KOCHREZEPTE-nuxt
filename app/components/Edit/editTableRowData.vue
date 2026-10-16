@@ -1,19 +1,19 @@
 ﻿<template>
-  
+
   <v-form validate-on="submit" ref="formRef" v-model="isValid">
 
     <v-card>
       <v-card-title>Rezept bearbeiten</v-card-title>
       <div class="formRecipe">
 
-      <!-- <div v-for="(src, i) in localSources" :key="src.id ?? i" class="width50">
+        <!-- <div v-for="(src, i) in localSources" :key="src.id ?? i" class="width50">
           Quelle:
 
           <v-select v-model="src.source_type_id" :items="sourceTypes" item-title="source_type" item-value="stid"
             label="Quelle" :rules="[rules.required]" />
         </div> -->
 
-        <EditRecipeDataRecipeBaseFields v-model="localRecipe" :source-types="sourceTypes"  />
+        <EditRecipeDataRecipeBaseFields v-model="localRecipe" :source-types="sourceTypes" />
       </div>
       <div class="btn-position">
         <v-card-actions>
@@ -30,6 +30,7 @@
 <script setup lang="ts">
 
 import type { DbRecipe, DbSourceType, DbIngredients, DbRecipeIngredients, DbSources, DbUnits } from '../../types/dbRecipe.type'
+import { updateRecipeFull } from '../../utils/achdb.service'
 const emit = defineEmits(['close'])
 const isValid = ref(false)
 const formRef = ref()
@@ -99,7 +100,8 @@ watch([localRecipe, localSources], () => {
 async function save() {
   const { valid } = await formRef.value.validate()
   if (!valid) return
-  await updateRecipeFull()
+
+  await updateRecipeFull(localRecipe.value, localRecipeIngredients.value)
   localStorage.removeItem(draftKey)
   emit('close')
 }
@@ -110,22 +112,22 @@ const getSourceTypeName = (id: number | null) => {
   return st?.source_type ?? ''
 }
 
-async function updateRecipeFull() {
-  const id = localRecipe.value.id
+// async function updateRecipeFull() {
+//   const id = localRecipe.value.id
 
-  const payload = {
-    recipe: localRecipe.value,
-    ingredients: localRecipeIngredients.value,
-    sources: localSources.value
-  }
+//   const payload = {
+//     recipe: localRecipe.value,
+//     ingredients: localRecipeIngredients.value,
+//     sources: localSources.value
+//   }
 
-  const res = await $fetch(`/api/recipes/${id}/full`, {
-    method: 'PATCH',
-    body: payload
-  })
+//   const res = await $fetch(`/api/recipes/${id}/full`, {
+//     method: 'PATCH',
+//     body: payload
+//   })
 
-  return res
-}
+//   return res
+// }
 const rules = useFormRules()
 
 
@@ -149,8 +151,8 @@ const rules = useFormRules()
 
 }
 
-.width50{
-  width:50%;
-  align-self:right;
+.width50 {
+  width: 50%;
+  align-self: right;
 }
 </style>

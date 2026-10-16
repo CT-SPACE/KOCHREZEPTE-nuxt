@@ -1,27 +1,13 @@
-
-
 <template>
   <div class="layer">
-         <div class="close-btn"><v-btn icon="$close" variant="text" density="compact" @click="$emit('close')" /></div>
-    <editTableRowData
-    v-if="editMode === 'edit' && props.recipe"
-    :recipe="props.recipe"
-    :units="props.units"
-    :sourceTypes="props.sourceTypes"
-    :recipeIngredients="props.recipeIngredients"
-    :sources="props.sources"
-    edit-mode="edit"
-    @close="$emit('close')"
-    />
+    <div class="close-btn"><v-btn icon="$close" variant="text" density="compact" @click="$emit('close')" /></div>
+    <editTableRowData v-if="editMode === 'edit' && props.recipe" :recipe="props.recipe" :units="props.units"
+      :sourceTypes="props.sourceTypes" :recipeIngredients="props.recipeIngredients" :sources="props.sources"
+      edit-mode="edit" @close="$emit('close')" />
 
-    <editNewRecipeData
-            v-if="editMode === 'new'"
-    :source-types="sourceTypes"
-    :units="units"
-    :ingredient-options="ingredientOptions"
-    :initial-source-type-id="initialSourceTypeId"
-    @close="$emit('close')"
-    />
+    <editNewRecipeData v-if="editMode === 'new'" :source-types="sourceTypes" :units="units"
+      :ingredient-options="ingredientOptions" :initial-source-type-id="initialSourceTypeId" edit-mode="new"
+      @close="$emit('close')" />
   </div>
 
 </template>
@@ -68,12 +54,12 @@ defineEmits(['close'])
 
 }
 
-.close-btn{
+.close-btn {
   position: absolute;
-    top: 30px;
-    right: 10vw !important;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-  
+  top: 30px;
+  right: 10vw !important;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+
 }
 </style>
