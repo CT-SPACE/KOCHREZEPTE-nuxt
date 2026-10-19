@@ -1,21 +1,22 @@
 <template>
   <div class="layer">
     <div class="close-btn"><v-btn icon="$close" variant="text" density="compact" @click="$emit('close')" /></div>
-    <editTableRowData v-if="editMode === 'edit' && props.recipe" :recipe="props.recipe" :units="props.units"
-      :sourceTypes="props.sourceTypes" :recipeIngredients="props.recipeIngredients" :sources="props.sources"
+    <EditAll v-if="editMode === 'edit' && props.recipe" :recipe="props.recipe" :units="props.units"
+      :source-types="props.sourceTypes" :ingredient-options="ingredientOptions" :sources="props.sources"
       edit-mode="edit" @close="$emit('close')" />
 
-    <editNewRecipeData v-if="editMode === 'new'" :source-types="sourceTypes" :units="units"
+    <EditAll v-if="editMode === 'new'" :source-types="sourceTypes" :units="units"
       :ingredient-options="ingredientOptions" :initial-source-type-id="initialSourceTypeId" edit-mode="new"
       @close="$emit('close')" />
   </div>
+
 
 </template>
 
 <script setup lang="ts">
 import type { DbRecipe, DbSourceType, DbRecipeIngredients, DbSources, DbIngredients, DbUnits } from '../../types/dbRecipe.type'
-import editTableRowData from './editTableRowData.vue'
-import editNewRecipeData from './editNewRecipeData.vue';
+// import editTableRowData from './editTableRowData.vue'
+// import editNewRecipeData from './editNewRecipeData.vue';
 
 
 const props = defineProps<{
@@ -24,10 +25,10 @@ const props = defineProps<{
   sources?: DbSources
   ingredients?: DbIngredients
   ingredientOptions?: { id: number; name: string }[]
-  initialSourceTypeId?: number | null
+  initialSourceTypeId?: number
   sourceTypes: DbSourceType[]
   units: DbUnits[]
-  editMode: 'edit' | 'new' | null
+  editMode: 'edit' | 'new'
 }>()
 
 defineEmits(['close'])

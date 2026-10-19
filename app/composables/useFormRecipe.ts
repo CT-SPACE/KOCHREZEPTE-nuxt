@@ -20,7 +20,7 @@ const emptyRecipe = (): DbRecipe => ({
   category: null,
   source: "",
   source_detail: "",
-  updated_at: "",
+  // updated_at: "",
   note: "",
   source_type_id: 0,
 });

@@ -1,37 +1,37 @@
 @font-face {
   font-family: pt-sans;
-  src: url('/assets/fonts/ptsans-regular-webfont.woff2') format('woff2');
+  src: url("/assets/fonts/ptsans-regular-webfont.woff2") format("woff2");
 }
 
 @font-face {
   font-family: pt-sans_bold;
-  src: url('/assets/fonts/ptsans-bold-webfont.woff2') format('woff2');
+  src: url("/assets/fonts/ptsans-bold-webfont.woff2") format("woff2");
 }
 
 @font-face {
   font-family: viga;
-  src: url('/assets/fonts/viga-regular-webfont.woff2') format('woff2');
+  src: url("/assets/fonts/viga-regular-webfont.woff2") format("woff2");
 }
 
 @font-face {
   font-family: cinzel bold;
   src:
-    url('/assets/fonts/cinzeldecorative-bold-webfont.woff2') format('woff2'),
-    url('/assets/fonts/cinzeldecorative-bold-webfont.woff') format('woff');
+    url("/assets/fonts/cinzeldecorative-bold-webfont.woff2") format("woff2"),
+    url("/assets/fonts/cinzeldecorative-bold-webfont.woff") format("woff");
 }
 
 @font-face {
   font-family: londrina regular;
   src:
-    url('/assets/fonts/londrinasketch-regular-webfont.woff2') format('woff2'),
-    url('/assets/fonts/londrinasketch-regular-webfont.woff') format('woff');
+    url("/assets/fonts/londrinasketch-regular-webfont.woff2") format("woff2"),
+    url("/assets/fonts/londrinasketch-regular-webfont.woff") format("woff");
 }
 
 @font-face {
   font-family: luckiestguy regular;
   src:
-    url('/assets/fonts/luckiestguy-regular-webfont.woff2') format('woff2'),
-    url('/assets/fonts/luckiestguy-regular-webfont.woff') format('woff');
+    url("/assets/fonts/luckiestguy-regular-webfont.woff2") format("woff2"),
+    url("/assets/fonts/luckiestguy-regular-webfont.woff") format("woff");
 }
 
 :root {
@@ -39,86 +39,82 @@
   --v-field-input-padding-top: 6px;
   --v-field-input-padding-bottom: 6px;
   /* --v-theme-on-surface: #000; */
- 
 }
 
-
-.v-input__details{
-      height: 4px !important;
-    min-height: 0 !important;
-     padding-top: 0 !important;
+.v-input__details {
+  height: 4px !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
 }
 
-
-
-.v-form{
-  width:80vw;
+.v-form {
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 1000px;
-  height: 90vh;
+  height: 100%;
 }
 
- .v-table th, .v-table td{
+.v-table th,
+.v-table td {
   padding: 0 4px !important;
 }
 
-.v-table tbody tr:hover{
+.v-table tbody tr:hover {
   cursor: pointer;
   background-color: rgba(113, 154, 116, 0.4);
 }
 
-.v-data-table-footer__items-per-page > .v-select{
-  width:unset !important;
+.v-data-table-footer__items-per-page > .v-select {
+  width: unset !important;
 }
 
-
-.v-list-item .v-list-item__overlay:hover{
- opacity: 0.8 !important;
-
+.v-list-item .v-list-item__overlay:hover {
+  opacity: 0.8 !important;
 }
 
-.v-list-item--active .v-list-item__overlay{
+.v-list-item--active .v-list-item__overlay {
   background: yellowgreen !important;
-  opacity:0.4 !important;
-
+  opacity: 0.4 !important;
 }
 
-.v-list-item{
-  min-height:20px !important;
+.v-list-item {
+  min-height: 20px !important;
 }
 
-.v-list-item:hover{
-  color:rgba(113, 154, 116, 0.4) !important;
+.v-list-item:hover {
+  color: rgba(113, 154, 116, 0.4) !important;
 }
 
 .v-skeleton-loader__bone::after {
-    animation: loading 1.5s infinite;
-    background: linear-gradient(90deg, 
-color-mix(in srgb, rgb(var(--v-theme-surface)) 0%, transparent), 
-color-mix(in srgb, rgb(80 239 19) 30%, transparent), 
-color-mix(in srgb, rgb(22 114 13) 0%, transparent));
+  animation: loading 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, rgb(var(--v-theme-surface)) 0%, transparent),
+    color-mix(in srgb, rgb(80 239 19) 30%, transparent),
+    color-mix(in srgb, rgb(22 114 13) 0%, transparent)
+  );
 }
 
-.zub-btn{
-  width:100%;
-  background-color:#d0f286 !important;
+.zub-btn {
+  width: 100%;
+  background-color: #d0f286 !important;
   margin-bottom: 10px;
 }
-.zutat input{
-    background-color: white !important;
-    border:none;
+.zutat input {
+  background-color: white !important;
+  border: none;
 }
 
-.stepRow .v-field__input{
-  background-color:#dfdcdc !important;
+.stepRow .v-field__input {
+  background-color: #dfdcdc !important;
   border-radius: 8px 8px 0 0 !important;
   border-color: transparent !important;
-    box-shadow: none !important;
-    mask-image: none !important;
+  box-shadow: none !important;
+  mask-image: none !important;
 }
 
-.stepRow .v-field__field label{
-  position:absolute;
+.stepRow .v-field__field label {
+  position: absolute;
   top: -0px !important;
   font-weight: 700;
   background-color: #dfdcdc;
@@ -126,37 +122,31 @@ color-mix(in srgb, rgb(22 114 13) 0%, transparent));
 }
 
 .quelle .v-input__control {
-    border-radius: 8px 8px 0 0;
-    background-color: #D7EBAD !important;
+  border-radius: 8px 8px 0 0;
+  background-color: #d7ebad !important;
 }
 
-/* input:-internal-autofill-selected {
-  background-color: linen !important;
-}
-input:-internal-autofill-selected:focus-visible{
-  outline: none;
-  border:none;
-  background-color: linen;
-} */
-
-input:-webkit-autofill, input:-webkit-autofill-selected, input:-webkit-autofill-selected:focus-visible, input:-internal-autofill-selected, input:-internal-autofill-selected:focus-visible {
+input:-webkit-autofill,
+input:-webkit-autofill-selected,
+input:-webkit-autofill-selected:focus-visible,
+input:-internal-autofill-selected,
+input:-internal-autofill-selected:focus-visible {
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
   box-shadow: 0 0 0 1000px transparent inset !important;
   -webkit-text-fill-color: inherit !important;
   background-color: unset !important;
-  outline:none;
+  outline: none;
   border: none;
   background-color: unset;
 }
 
-
 i {
-  display:none;
-  width:0;
-  padding:0
+  display: none;
+  width: 0;
+  padding: 0;
 }
-th{
-      font-weight: 700 !important;
+th {
+  font-weight: 700 !important;
 }
 
 /* WebKit (Chrome, Edge, Safari) */
@@ -181,17 +171,18 @@ body::-webkit-scrollbar-track,
 }
 
 /* Firefox */
-html, body, * {
+html,
+body,
+* {
   scrollbar-width: thin;
   scrollbar-color: #38a14a transparent;
 }
-
 
 html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'pt-sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "pt-sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 html {
@@ -207,7 +198,6 @@ body {
 body:has(#edit-Flag) {
   overflow: hidden;
 }
-
 
 .pad16 {
   padding: 16px;
@@ -232,9 +222,6 @@ input:focus {
   outline: none;
 }
 
-
-
-
 button {
   background-color: green;
   border: 1px solid lightgrey !important;
@@ -251,7 +238,7 @@ button:hover {
 }
 
 h1 {
-  font-family: 'cinzel bold', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "cinzel bold", "Helvetica Neue", Arial, sans-serif;
   font-size: 2rem;
   letter-spacing: 0.05em;
   text-align: left;
@@ -260,7 +247,7 @@ h1 {
 
 h2 {
   font-size: 1.8rem;
-  margin:  16px 16px 0;
+  margin: 16px 16px 0;
   text-align: left;
 }
 
@@ -279,7 +266,7 @@ a:hover {
   color: rgb(246, 246, 245);
 }
 
-@media screen and (max-width: 700px){
+@media screen and (max-width: 700px) {
   h1 {
     margin: 0;
   }
