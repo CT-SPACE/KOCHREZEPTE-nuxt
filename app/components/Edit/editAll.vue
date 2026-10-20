@@ -1,6 +1,6 @@
 <template>
     <v-card class="recipe-card">
-        <v-form ref="formRef" validate-on="submit lazy" v-model="isValid" @submit.prevent="save">
+        <v-form ref="formRef" id="recipe-form" validate-on="submit lazy" v-model="isValid" @submit.prevent="save">
 
             <v-card class="pa-4" min-width="500">
                 <v-card-title>Neues Rezept</v-card-title>
@@ -29,7 +29,7 @@
 
             <v-btn @click="resetForm()">Clear</v-btn>
             <v-btn @click="cancel()">Cancel</v-btn>
-            <v-btn color="primary" type="submit">SAVE</v-btn>
+            <v-btn color="primary" type="submit" form="recipe-form">SAVE</v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -115,14 +115,14 @@ onMounted(() => {
         }
         if (parsed.sources) localSources.value = parsed.sources
         if (parsed.ingredients) {
-            localRecipeIngredients.value = { ...localRecipeIngredients.value, ...parsed.ingredients }
+            if (Array.isArray(parsed.ingredients)) localRecipeIngredients.value = parsed.ingredients
         }
     } catch {
         console.warn('Draft konnte nicht geladen werden')
     }
 })
 
-watch([localRecipe, localSources], () => {
+watch([localRecipe, localSources, localRecipeIngredients], () => {
     if (discarded) return
     localStorage.setItem(
         draftKey,
@@ -137,36 +137,33 @@ const isPersonal = computed(
         props.sourceTypes.find(s => s.stid === localRecipe.value.source_type_id)?.source_type === 'Persönlich'
 )
 
-watch(isPersonal, (newVal) => {
-    if (newVal) {
-        // Titel anpassen, wenn persönlich
-        if (!localRecipe.value.title?.startsWith('Persönlich: ')) {
-            localRecipe.value.title = `Persönlich: ${localRecipe.value.title || ''}`
-        }
-    } else {
-        // Titel zurücksetzen, wenn nicht persönlich
-        if (localRecipe.value.title?.startsWith('Persönlich: ')) {
-            localRecipe.value.title = localRecipe.value.title.replace(/^Persönlich:\s*/, '')
-        }
-    }
-})
+// watch(isPersonal, (newVal) => {
+//     if (newVal) {
+//         // Titel anpassen, wenn persönlich
+//         if (!localRecipe.value.title?.startsWith('Persönlich: ')) {
+//             localRecipe.value.title = `Persönlich: ${localRecipe.value.title || ''}`
+//         }
+//     } else {
+//         // Titel zurücksetzen, wenn nicht persönlich
+//         if (localRecipe.value.title?.startsWith('Persönlich: ')) {
+//             localRecipe.value.title = localRecipe.value.title.replace(/^Persönlich:\s*/, '')
+//         }
+//     }
+// })
 
 async function save() {
-    const recipeToSave = localRecipe.value
-    const ingredientsToSave = localRecipeIngredients.value
-    const valid = await formRef.value?.validate()
+    const { valid } = await formRef.value.validate()
     if (!valid) return
-
-    if (props.editMode === 'new') {
-        await createRecipe(recipeToSave, ingredientsToSave)
-    } else {
-        await updateRecipe(recipeToSave, ingredientsToSave)
+    try {
+        if (props.editMode === 'new') await createRecipe(localRecipe.value, localRecipeIngredients.value)
+        else await updateRecipe(localRecipe.value, localRecipeIngredients.value)
+        cancel()
+    } catch (err) {
+        console.error('Speichern fehlgeschlagen:', err)
     }
-    cancel()
-
 }
 
-const rules = useFormRules()
+// const rules = useFormRules()
 
 function cancel() {
     clearForm(props.initialSourceTypeId)

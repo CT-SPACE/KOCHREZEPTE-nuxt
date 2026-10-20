@@ -31,6 +31,7 @@
       variant="outlined"
       class="zutat"
       :loading="loadingId === i"
+      :rules="[() => ing.ingredient_id > 0 || 'Zutat auswählen oder mit Enter bestätigen']"
       @update:model-value="(val) => onSelectIngredient(ing, val, i)"
     >
       <template #no-data>
@@ -58,6 +59,7 @@ const ingredients = defineModel<DbRecipeIngredients>({ required: true })
 }>()
 
 const loadingId = ref<number | null>(null)
+const pendingCreates = new Map<string, Promise<{ id: number; name: string }>>()
 
 function getIngredient(id: number | null) {
   if (!id) return null
@@ -96,11 +98,19 @@ async function onSelectIngredient(
     return
   }
 
-  // Neue Zutat direkt in DB anlegen
+  // Neue Zutat direkt in DB anlegen; gleiche Namen teilen sich einen laufenden Request
+  const key = trimmed.toLowerCase()
   loadingId.value = index
   try {
-    const created = await createIngredientInDB(trimmed)
-    props.ingredientOptions.push(created)
+    let pending = pendingCreates.get(key)
+    if (!pending) {
+      pending = createIngredientInDB(trimmed).finally(() => pendingCreates.delete(key))
+      pendingCreates.set(key, pending)
+    }
+    const created = await pending
+    if (!props.ingredientOptions.some(opt => opt.id === created.id)) {
+      props.ingredientOptions.push(created)
+    }
     ing.ingredient_id = created.id
   } catch (err) {
     console.error('Fehler beim Anlegen der Zutat:', err)
