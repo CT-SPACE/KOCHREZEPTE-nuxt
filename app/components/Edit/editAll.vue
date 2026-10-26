@@ -137,33 +137,24 @@ const isPersonal = computed(
         props.sourceTypes.find(s => s.stid === localRecipe.value.source_type_id)?.source_type === 'Persönlich'
 )
 
-// watch(isPersonal, (newVal) => {
-//     if (newVal) {
-//         // Titel anpassen, wenn persönlich
-//         if (!localRecipe.value.title?.startsWith('Persönlich: ')) {
-//             localRecipe.value.title = `Persönlich: ${localRecipe.value.title || ''}`
-//         }
-//     } else {
-//         // Titel zurücksetzen, wenn nicht persönlich
-//         if (localRecipe.value.title?.startsWith('Persönlich: ')) {
-//             localRecipe.value.title = localRecipe.value.title.replace(/^Persönlich:\s*/, '')
-//         }
-//     }
-// })
-
 async function save() {
     const { valid } = await formRef.value.validate()
+    if (!isPersonal) { localRecipeIngredients.value = [] }
     if (!valid) return
     try {
-        if (props.editMode === 'new') await createRecipe(localRecipe.value, localRecipeIngredients.value)
-        else await updateRecipe(localRecipe.value, localRecipeIngredients.value)
-        cancel()
+
+        const ingredients = localRecipeIngredients.value
+        const sources = localSources.value
+
+        if (props.editMode === 'new') {
+            await createRecipe(localRecipe.value, ingredients, sources)
+        } else {
+            await updateRecipe(localRecipe.value, ingredients, sources)
+        }
     } catch (err) {
         console.error('Speichern fehlgeschlagen:', err)
     }
 }
-
-// const rules = useFormRules()
 
 function cancel() {
     clearForm(props.initialSourceTypeId)

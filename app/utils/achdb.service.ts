@@ -1,6 +1,7 @@
 ﻿import type {
   DbRecipe,
   DbRecipeIngredients,
+  DbSources,
   DbSourceType,
   DbUnits,
 } from "../types/dbRecipe.type";
@@ -38,6 +39,7 @@ export async function createIngredientInDB(
 function buildRecipePayload(
   recipe: DbRecipe,
   ingredients: DbRecipeIngredients = [],
+  sources: DbSources,
 ) {
   return {
     recipe,
@@ -56,19 +58,21 @@ function buildRecipePayload(
 export async function createRecipe(
   recipe: DbRecipe,
   ingredients: DbRecipeIngredients = [],
+  sources: DbSources,
 ) {
   return await $fetch<{ id: number }>("/api/recipes", {
     method: "POST",
-    body: buildRecipePayload(recipe, ingredients),
+    body: buildRecipePayload(recipe, ingredients, sources),
   });
 }
 
 export async function updateRecipe(
   recipe: DbRecipe,
   ingredients: DbRecipeIngredients = [],
+  sources: DbSources,
 ) {
   return await $fetch<{ id: number }>(`/api/recipes/${recipe.id}/full`, {
     method: "PATCH",
-    body: buildRecipePayload(recipe, ingredients),
+    body: buildRecipePayload(recipe, ingredients, sources),
   });
 }

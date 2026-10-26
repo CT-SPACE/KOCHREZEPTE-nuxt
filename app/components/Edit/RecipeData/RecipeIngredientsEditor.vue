@@ -1,39 +1,16 @@
 <template>
   <div v-for="(ing, i) in ingredients" :key="i" class="d-flex ga-2 align-center zutaten-row">
 
-    <v-text-field
-      v-model.number="ing.amount"
-      type="number"
-      label="Menge"
-      density="compact"
-      variant="outlined"
-      class="zutat menge"
-    />
-    <v-select
-      v-model="ing.unit_id"
-      :items="units"
-      item-title="name"
-      item-value="id"
-      label="Einheit"
-      density="compact"
-      variant="outlined"
-      class="zutat unit"
-    /> 
+    <v-text-field v-model.number="ing.amount" type="number" label="Menge" density="compact" variant="outlined"
+      class="zutat menge" />
+    <v-select v-model="ing.unit_id" :items="units" item-title="name" item-value="id" label="Einheit" density="compact"
+      variant="outlined" class="zutat unit" />
 
 
-    <v-combobox
-      :model-value="getIngredient(ing.ingredient_id)"
-      :items="ingredientOptions"
-      item-title="name"
-      item-value="id"
-      label="Zutat"
-      density="compact"
-      variant="outlined"
-      class="zutat"
-      :loading="loadingId === i"
+    <v-combobox :model-value="getIngredient(ing.ingredient_id)" :items="ingredientOptions" item-title="name"
+      item-value="id" label="Zutat" density="compact" variant="outlined" class="zutat" :loading="loadingId === i"
       :rules="[() => ing.ingredient_id > 0 || 'Zutat auswählen oder mit Enter bestätigen']"
-      @update:model-value="(val) => onSelectIngredient(ing, val, i)"
-    >
+      @update:model-value="(val) => onSelectIngredient(ing, val, i)">
       <template #no-data>
         <v-list-item>
           <v-list-item-title class="text-caption">
@@ -42,9 +19,10 @@
         </v-list-item>
       </template>
     </v-combobox>
-    <v-btn v-if="ingredients.length > 1" icon="mdi-close" variant="text" density="compact" size="20" @click="ingredients.splice(i, 1)" />
+    <v-btn v-if="ingredients.length > 1" icon="mdi-close" variant="text" density="compact" size="20"
+      @click="ingredients.splice(i, 1)" />
   </div>
- <v-btn  prepend-icon="mdi-plus" variant="tonal" @click="add" class="zub-btn">Zutat</v-btn>
+  <v-btn prepend-icon="mdi-plus" variant="tonal" @click="add" class="zub-btn">Zutat</v-btn>
 </template>
 
 <script setup lang="ts">
@@ -53,7 +31,7 @@ import { createIngredientInDB } from '~/utils/achdb.service'
 
 const ingredients = defineModel<DbRecipeIngredients>({ required: true })
 
-    const props = defineProps<{
+const props = defineProps<{
   units: DbUnits[]
   ingredientOptions: { id: number; name: string }[]
 }>()
@@ -91,7 +69,7 @@ async function onSelectIngredient(
 
   // Prüfen, ob der Name lokal schon existiert
   const match = props.ingredientOptions.find(
-    opt => opt.name.toLowerCase() === trimmed.toLowerCase()
+    opt => opt.name.toUpperCase() === trimmed.toUpperCase()
   )
   if (match) {
     ing.ingredient_id = match.id
@@ -99,7 +77,7 @@ async function onSelectIngredient(
   }
 
   // Neue Zutat direkt in DB anlegen; gleiche Namen teilen sich einen laufenden Request
-  const key = trimmed.toLowerCase()
+  const key = trimmed.toUpperCase()
   loadingId.value = index
   try {
     let pending = pendingCreates.get(key)
@@ -131,10 +109,11 @@ function add() {
 </script>
 
 <style scoped>
-.zutaten-row{
-  margin-top:4px;
+.zutaten-row {
+  margin-top: 4px;
 }
-.zutat input{
-    background-color: white !important;
+
+.zutat input {
+  background-color: white !important;
 }
 </style>
