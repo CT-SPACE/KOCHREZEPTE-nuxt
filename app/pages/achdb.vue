@@ -78,8 +78,15 @@ const snackbar = reactive({ show: false, text: '' })
 
 
 async function loadRecipesTableValues() {
-    recipes.value = await getAllRecipesFromDB()
-    ingredientOptions.value = await getAllIngredientsFromDB()
+    try {
+        recipes.value = await getAllRecipesFromDB()
+        ingredientOptions.value = await getAllIngredientsFromDB()
+
+    } catch (e) {
+        snackbar.text = 'Rezept konnte nicht vollständig geladen werden.'
+        snackbar.show = true
+    }
+
 }
 async function onSaved(mode: 'new' | 'edit') {
     snackbar.text = mode === 'new' ? 'Rezept wurde angelegt.' : 'Änderungen wurden gespeichert.'

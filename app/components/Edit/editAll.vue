@@ -3,7 +3,7 @@
         <v-form ref="formRef" id="recipe-form" validate-on="input lazy" v-model="isValid" @submit.prevent="save">
 
             <v-card class="pa-4" min-width="500">
-                <v-card-title>Neues Rezept</v-card-title>
+                <v-card-title>{{ title }}</v-card-title>
 
                 <!-- <v-select :items="props.sourceTypes" item-title="source_type" item-value="stid" label="Quelle" /> -->
                 <v-card-text>
@@ -13,7 +13,7 @@
                         <v-divider></v-divider>
                         <div class="zubereitung">
                             <EditRecipeDataRecipeIngredientsEditor v-model="localRecipeIngredients" :units="units"
-                                :ingredient-options="ingredientOptions" />
+                                :ingredient-options="ingredientOptions" :recipe-ingredients="recipeIngredients" />
                             <EditRecipeDataPreparationSteps v-model="localRecipe" />
                         </div>
                     </template>
@@ -45,6 +45,9 @@ const isValid = ref(false)
 const formRef = ref()
 let discarded = false
 
+const title = computed(() =>
+    props.editMode === 'new' ? 'Neues Rezept' : `Rezept bearbeiten: ${localRecipe.value.title}`
+)
 const props = withDefaults(
     defineProps<{
         recipe?: DbRecipe | null,

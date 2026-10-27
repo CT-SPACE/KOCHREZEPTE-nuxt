@@ -1,7 +1,7 @@
 <template>
   <div v-for="(ing, i) in ingredients" :key="i" class="d-flex ga-2 align-center zutaten-row">
 
-    <v-text-field v-model.number="ing.amount" type="number" label="Menge" density="compact" variant="outlined"
+    <v-text-field v-model.number="ing.amount" type="number" min="1" label="Menge" density="compact" variant="outlined"
       class="zutat menge" />
     <v-select v-model="ing.unit_id" :items="units" item-title="name" item-value="id" label="Einheit" density="compact"
       variant="outlined" class="zutat unit" />
@@ -10,7 +10,8 @@
     <v-combobox :model-value="getIngredient(ing.ingredient_id)" :items="ingredientOptions" item-title="name"
       item-value="id" label="Zutat" density="compact" variant="outlined" class="zutat" :loading="loadingId === i"
       :rules="[() => ing.ingredient_id > 0 || 'Zutat auswählen oder mit Enter bestätigen']"
-      @update:model-value="(val) => onSelectIngredient(ing, val, i)">
+      @update:model-value="(val) => onPick(ing, val)" @update:search="(s) => (searchText[i] = s)"
+      @keydown.enter.prevent="confirmText(ing, i)">
       <template #no-data>
         <v-list-item>
           <v-list-item-title class="text-caption">
@@ -28,12 +29,13 @@
 <script setup lang="ts">
 import type { DbRecipeIngredient, DbRecipeIngredients, DbUnits } from '~/types/dbRecipe.type'
 import { createIngredientInDB } from '~/utils/achdb.service'
-
+const searchText = reactive<Record<number, string>>({})
 const ingredients = defineModel<DbRecipeIngredients>({ required: true })
 
 const props = defineProps<{
   units: DbUnits[]
   ingredientOptions: { id: number; name: string }[]
+  recipeIngredients: DbRecipeIngredients | undefined
 }>()
 
 const loadingId = ref<number | null>(null)
@@ -95,6 +97,18 @@ async function onSelectIngredient(
   } finally {
     loadingId.value = null
   }
+}
+
+function onPick(ing: DbRecipeIngredient, val: unknown) {
+  if (val && typeof val === 'object' && 'id' in val) ing.ingredient_id = (val as { id: number }).id
+  else if (!val) ing.ingredient_id = 0
+}
+
+function confirmText(ing: DbRecipeIngredient, index: number) {
+  const text = searchText[index]?.trim()
+  if (!text) return
+  if (getIngredient(ing.ingredient_id)?.name.toUpperCase() === text.toUpperCase()) return
+  onSelectIngredient(ing, text, index)
 }
 
 function add() {
