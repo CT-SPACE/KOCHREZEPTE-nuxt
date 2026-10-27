@@ -1,6 +1,6 @@
 <template>
     <v-card class="recipe-card">
-        <v-form ref="formRef" id="recipe-form" validate-on="submit lazy" v-model="isValid" @submit.prevent="save">
+        <v-form ref="formRef" id="recipe-form" validate-on="input lazy" v-model="isValid" @submit.prevent="save">
 
             <v-card class="pa-4" min-width="500">
                 <v-card-title>Neues Rezept</v-card-title>
@@ -29,7 +29,9 @@
 
             <v-btn @click="resetForm()">Clear</v-btn>
             <v-btn @click="cancel()">Cancel</v-btn>
-            <v-btn color="primary" type="submit" form="recipe-form">SAVE</v-btn>
+            <v-btn color="primary" type="submit" form="recipe-form" :disabled="isValid === false"
+                :variant="isValid === false ? 'tonal' : 'elevated'"
+                :prepend-icon="isValid === false ? 'mdi-alert-circle-outline' : undefined">SAVE</v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -38,7 +40,7 @@
 import type { DbRecipe, DbSourceType, DbIngredients, DbRecipeIngredients, DbSources, DbUnits } from '../../types/dbRecipe.type'
 import { createRecipe } from '../../utils/achdb.service'
 import { updateRecipe } from '../../utils/achdb.service'
-const emit = defineEmits(['close'])
+const emit = defineEmits<{ (e: 'close'): void; (e: 'saved', mode: 'new' | 'edit'): void }>()
 const isValid = ref(false)
 const formRef = ref()
 let discarded = false
@@ -139,8 +141,13 @@ const isPersonal = computed(
 
 async function save() {
     const { valid } = await formRef.value.validate()
-    if (!isPersonal) { localRecipeIngredients.value = [] }
-    if (!valid) return
+
+    if (!valid) {
+        await nextTick()
+        document.querySelector('.v-input--error')?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        return
+    }
+    if (!isPersonal.value) { localRecipeIngredients.value = [] }
     try {
 
         const ingredients = localRecipeIngredients.value
@@ -151,13 +158,16 @@ async function save() {
         } else {
             await updateRecipe(localRecipe.value, ingredients, sources)
         }
+        emit('saved', props.editMode)
+        cancel();
     } catch (err) {
         console.error('Speichern fehlgeschlagen:', err)
     }
+
 }
 
 function cancel() {
-    clearForm(props.initialSourceTypeId)
+    // clearForm(props.initialSourceTypeId)
     discarded = true
     localStorage.removeItem(draftKey)
     emit('close')

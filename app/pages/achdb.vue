@@ -1,7 +1,11 @@
 <template>
     <editOverlay id="edit-Flag" v-if="editMode" :units="units" :recipe="selected" :source-types="sourceTypes"
-        :ingredient-options="ingredientOptions" :initial-source-type-id="newSourceTypeId" :edit-mode="editMode"
-        @close="editMode = null" />
+        :ingredient-options="ingredientOptions" :recipe-ingredients="selectedIngredients"
+        :initial-source-type-id="newSourceTypeId" :edit-mode="editMode" @close="editMode = null" @saved="onSaved" />
+
+    <v-snackbar v-model="snackbar.show" color="success" :timeout="3000" location="bottom">
+        {{ snackbar.text }}
+    </v-snackbar>
     <v-card title="Achims Datenbank" flat>
 
 
@@ -57,10 +61,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 // import { getRecipesFromData, type RecipeData } from '../utils/data.service'
-import { getAllSourceTypesFromDB, getAllUnitsFromDB, getAllIngredientsFromDB } from '../utils/achdb.service'
-import type { DbRecipe, DbSourceType, DbUnits } from '../types/dbRecipe.type'
+import { getAllSourceTypesFromDB, getRecipeIngredientsFromDB, getAllUnitsFromDB, getAllRecipesFromDB, getAllIngredientsFromDB } from '../utils/achdb.service'
+import type { DbRecipe, DbSourceType, DbUnits, DbRecipeIngredients } from '../types/dbRecipe.type'
 
-
+const selectedIngredients = ref<DbRecipeIngredients>([])
 const recipes = ref<DbRecipe[]>([])
 const sourceTypes = ref<DbSourceType[]>([])
 const units = ref<DbUnits[]>([])
@@ -70,21 +74,34 @@ const { loading, start, stop } = useLoading()
 const selected = ref<DbRecipe | null>(null)
 const ingredientOptions = ref<{ id: number; name: string }[]>([])
 const newSourceTypeId = ref<number>()
+const snackbar = reactive({ show: false, text: '' })
+
+
+async function loadRecipesTableValues() {
+    recipes.value = await getAllRecipesFromDB()
+    ingredientOptions.value = await getAllIngredientsFromDB()
+}
+async function onSaved(mode: 'new' | 'edit') {
+    snackbar.text = mode === 'new' ? 'Rezept wurde angelegt.' : 'Änderungen wurden gespeichert.'
+    snackbar.show = true
+    await loadRecipesTableValues()
+}
 
 onMounted(async () => {
     start()
     await new Promise(resolve => setTimeout(resolve, 3000))
     units.value = await getAllUnitsFromDB()
-    recipes.value = await getAllRecipesFromDB()
+    await loadRecipesTableValues()
     sourceTypes.value = await getAllSourceTypesFromDB()
-    ingredientOptions.value = await getAllIngredientsFromDB()
-
     stop()
 })
 
-function openEdit(item: DbRecipe) {
+
+
+async function openEdit(item: DbRecipe) {
     if (!item) return;
     selected.value = structuredClone(toRaw(item))
+    selectedIngredients.value = await getRecipeIngredientsFromDB(item.id)
     editMode.value = 'edit'
 }
 

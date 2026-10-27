@@ -38,13 +38,22 @@
   --v-input-control-height: 30px;
   --v-field-input-padding-top: 6px;
   --v-field-input-padding-bottom: 6px;
+  --v-theme-primary: #537b5f;
   /* --v-theme-on-surface: #000; */
 }
 
+.v-application .bg-primary {
+  --v-theme-primary: rgba(83, 123, 95, 1);
+}
+
 .v-input__details {
-  height: 4px !important;
-  min-height: 0 !important;
+  min-height: 10px !important;
+  height: 18px !important;
   padding-top: 0 !important;
+  align-items: center !important;
+}
+.v-input__details .v-messages__message {
+  line-height: 10px !important;
 }
 
 .v-form {
@@ -93,6 +102,17 @@
     color-mix(in srgb, rgb(80 239 19) 30%, transparent),
     color-mix(in srgb, rgb(22 114 13) 0%, transparent)
   );
+}
+
+.v-overlay-container .v-snackbar--bottom {
+  justify-content: center !important;
+  align-items: center;
+}
+
+.v-overlay-container .v-snackbar__content {
+  font-size: 1rem !important;
+  text-align: center !important;
+  line-height: 3;
 }
 
 .zub-btn {

@@ -2,12 +2,13 @@
   <div class="layer">
     <div class="close-btn"><v-btn icon="$close" variant="text" density="compact" @click="$emit('close')" /></div>
     <EditAll v-if="editMode === 'edit' && props.recipe" :recipe="props.recipe" :units="props.units"
-      :source-types="props.sourceTypes" :ingredient-options="ingredientOptions" :sources="props.sources"
-      edit-mode="edit" @close="$emit('close')" />
+      :source-types="props.sourceTypes" :ingredient-options="ingredientOptions"
+      :recipe-ingredients="props.recipeIngredients" :sources="props.sources" edit-mode="edit" @close="$emit('close')"
+      @saved="(m) => $emit('saved', m)" />
 
     <EditAll v-if="editMode === 'new'" :source-types="sourceTypes" :units="units"
       :ingredient-options="ingredientOptions" :initial-source-type-id="initialSourceTypeId" edit-mode="new"
-      @close="$emit('close')" />
+      @close="$emit('close')" @saved="(m) => $emit('saved', m)" />
   </div>
 
 
@@ -31,7 +32,7 @@ const props = defineProps<{
   editMode: 'edit' | 'new'
 }>()
 
-defineEmits(['close'])
+defineEmits(['close', 'saved'])
 
 
 </script>

@@ -11,6 +11,20 @@ export async function getAllRecipesFromDB(): Promise<DbRecipe[]> {
   return res;
 }
 
+export async function getAllIngredientsFromDB(): Promise<
+  { id: number; name: string }[]
+> {
+  return await $fetch<{ id: number; name: string }[]>("/api/ingredients");
+}
+
+export async function getRecipeIngredientsFromDB(
+  id: number,
+): Promise<DbRecipeIngredients> {
+  return await $fetch<DbRecipeIngredients>(
+    `/api/recipes/${id}/recipe-ingredients`,
+  );
+}
+
 export async function getAllSourceTypesFromDB(): Promise<DbSourceType[]> {
   const res = await $fetch<DbSourceType[]>("/api/source_types");
   return res;
@@ -19,12 +33,6 @@ export async function getAllSourceTypesFromDB(): Promise<DbSourceType[]> {
 export async function getAllUnitsFromDB(): Promise<DbUnits[]> {
   const res = await $fetch<DbUnits[]>("/api/units");
   return res;
-}
-
-export async function getAllIngredientsFromDB(): Promise<
-  { id: number; name: string }[]
-> {
-  return await $fetch<{ id: number; name: string }[]>("/api/ingredients");
 }
 
 export async function createIngredientInDB(
@@ -60,6 +68,7 @@ export async function createRecipe(
   ingredients: DbRecipeIngredients = [],
   sources: DbSources,
 ) {
+  console.log("/api/recipes");
   return await $fetch<{ id: number }>("/api/recipes", {
     method: "POST",
     body: buildRecipePayload(recipe, ingredients, sources),
@@ -71,7 +80,7 @@ export async function updateRecipe(
   ingredients: DbRecipeIngredients = [],
   sources: DbSources,
 ) {
-  return await $fetch<{ id: number }>(`/api/recipes/${recipe.id}/full`, {
+  return await $fetch<{ id: number }>(`/api/recipes/${recipe.id}`, {
     method: "PATCH",
     body: buildRecipePayload(recipe, ingredients, sources),
   });
