@@ -63,6 +63,14 @@ const props = withDefaults(
     { ingredientOptions: () => [] }
 )
 
+function hasDraftContent() {
+    const r = localRecipe.value
+    const others = [r.description, r.category, r.source, r.source_detail, r.note, r.servings, r.prep_time, r.cook_time]
+        .some(v => v !== null && v !== undefined && String(v).trim() !== '')
+    const hasIngredients = localRecipeIngredients.value.some(i => i.ingredient_id > 0)
+    return !!r.title?.trim() && (others || hasIngredients)
+}
+
 function clearForm(sourceTypeId?: number): DbRecipe {
     const stid = sourceTypeId ?? props.initialSourceTypeId
     if (stid === undefined) {
@@ -129,6 +137,10 @@ onMounted(() => {
 
 watch([localRecipe, localSources, localRecipeIngredients], () => {
     if (discarded) return
+    if (!hasDraftContent()) {
+        localStorage.removeItem(draftKey)
+        return
+    }
     localStorage.setItem(
         draftKey,
         JSON.stringify({ recipe: localRecipe.value, ingredients: localRecipeIngredients.value, sources: localSources.value })

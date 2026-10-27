@@ -3,7 +3,7 @@
         :ingredient-options="ingredientOptions" :recipe-ingredients="selectedIngredients"
         :initial-source-type-id="newSourceTypeId" :edit-mode="editMode" @close="editMode = null" @saved="onSaved" />
 
-    <v-snackbar v-model="snackbar.show" color="success" :timeout="3000" location="bottom">
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="3000" location="center">
         {{ snackbar.text }}
     </v-snackbar>
     <v-card title="Achims Datenbank" flat>
@@ -74,24 +74,30 @@ const { loading, start, stop } = useLoading()
 const selected = ref<DbRecipe | null>(null)
 const ingredientOptions = ref<{ id: number; name: string }[]>([])
 const newSourceTypeId = ref<number>()
-const snackbar = reactive({ show: false, text: '' })
+const snackbar = reactive({ show: false, text: '', color: 'success' })
 
 
 async function loadRecipesTableValues() {
-    try {
-        recipes.value = await getAllRecipesFromDB()
-        ingredientOptions.value = await getAllIngredientsFromDB()
 
-    } catch (e) {
-        snackbar.text = 'Rezept konnte nicht vollständig geladen werden.'
-        snackbar.show = true
-    }
+    recipes.value = await getAllRecipesFromDB()
+    ingredientOptions.value = await getAllIngredientsFromDB()
+
+
 
 }
 async function onSaved(mode: 'new' | 'edit') {
-    snackbar.text = mode === 'new' ? 'Rezept wurde angelegt.' : 'Änderungen wurden gespeichert.'
-    snackbar.show = true
-    await loadRecipesTableValues()
+    try {
+        // throw new Error('Test')
+        await loadRecipesTableValues()
+        snackbar.text = mode === 'new' ? 'Rezept wurde angelegt.' : 'Änderungen wurden gespeichert.'
+        snackbar.show = true
+        snackbar.color = "success"
+
+    } catch (e) {
+        snackbar.color = 'error'
+        snackbar.text = 'Rezept konnte nicht vollständig geladen werden.'
+        snackbar.show = true
+    }
 }
 
 onMounted(async () => {
