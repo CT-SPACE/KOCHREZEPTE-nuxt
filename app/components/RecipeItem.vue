@@ -1,7 +1,11 @@
 <template>
   <div class="recipe-item-container">
     <div class="recipe-item" @click="openDetail">
-      <img :src="props.recipe?.strMealThumb" class="recipe-img" />
+      <!-- <img :src="props.recipe?.strMealThumb" class="recipe-img" /> -->
+      <picture>
+        <source v-if="isPersonalId(props.recipe.idMeal)" media="(width < 400px)" :srcset="MOBILE_PLACEHOLDER_IMG" />
+        <img :src="props.recipe.strMealThumb" :alt="props.recipe.strMeal" class="recipe-img" />
+      </picture>
     </div>
     <div class="pad16 teaserText">
       <div class="font12">
@@ -41,6 +45,8 @@ function openDetail() {
   position: relative;
   padding: 0;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .recipe-item-container:hover {
@@ -53,7 +59,16 @@ function openDetail() {
   overflow: hidden;
   object-fit: cover;
   object-position: bottom;
+  height: auto;
+  width: 100%;
+  aspect-ratio: 1/1;
   margin: 0;
+  position: relative;
+
+}
+
+.placeholder-img {
+  bottom: 10%;
 }
 
 .teaserText {
@@ -86,6 +101,7 @@ function openDetail() {
   .pad16 {
     padding: 5px 16px;
   }
+
   .font12 {
     font-size: 1rem;
   }
@@ -93,23 +109,28 @@ function openDetail() {
 
 @media (max-width: 700px) {
   .recipe-item {
-    height: auto;
+
     aspect-ratio: 21/9;
     width: 100%;
     min-height: 100px;
     max-height: 130px;
   }
+
   .recipe-img {
     border-radius: 8px;
   }
+
   .recipe-item-container {
     aspect-ratio: unset;
     width: 100%;
     max-width: unset;
+    line-height: 1.1;
   }
+
   .teaserText {
     line-height: 1;
   }
+
   .pad16 {
     padding: 8px;
   }

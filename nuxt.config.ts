@@ -4,6 +4,7 @@ import vuetify from "vite-plugin-vuetify";
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
+  devServer: { port: 3000 },
   css: ["vuetify/styles"],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: false },

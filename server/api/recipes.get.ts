@@ -1,9 +1,10 @@
 ﻿export default defineEventHandler(async (event) => {
   const db = event.context.cloudflare.env.ACHDB;
+  const query = getQuery(event);
+  const personalOnly = query.personal === "1";
 
-  const { results } = await db
-    .prepare(
-      `
+  const statement = db.prepare(
+    `
 SELECT 
   r.id,
   r.title,
@@ -26,10 +27,13 @@ LEFT JOIN sources s
 
 LEFT JOIN source_types st 
   ON st.stid = s.source_type_id
-
+    ${personalOnly ? "WHERE st.source_type = ? COLLATE NOCASE" : ""}
   `,
-    )
-    .all();
+  );
+
+  const { results } = personalOnly
+    ? await statement.bind("Persönlich").all()
+    : await statement.all();
 
   return results;
 });

@@ -40,7 +40,7 @@ defineEmits(['close', 'saved'])
 
 <style scoped>
 .layer {
-  background-color: rgba(45, 90, 45, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   top: 0;
   left: 0;
