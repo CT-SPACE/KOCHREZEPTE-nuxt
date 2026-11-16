@@ -4,6 +4,8 @@ import { ref, onMounted } from 'vue'
 import { getAllRecipesFromAPI } from '../utils/api.service'
 import { getPersonalRecipesFromDB } from '../utils/personal.service'
 
+const itemsPerPage = 28
+const page = useState('recipe-list-page', () => 1)
 const { loading, start, stop } = useLoading()
 const meals = ref([])
 const errors = ref([])
@@ -42,6 +44,14 @@ onMounted(async () => {
     stop()
   }
 })
+
+
+const totalPages = computed(() => Math.ceil(meals.value.length / itemsPerPage))
+const paginatedMeals = computed(() => {
+  const startIndex = (page.value - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  return meals.value.slice(startIndex, endIndex)
+})
 </script>
 
 <template>
@@ -51,8 +61,22 @@ onMounted(async () => {
   </div>
 
   <div class="recipes">
-    <RecipeItem v-for="meal in meals" :key="meal.idMeal" :recipe="meal" />
+    <RecipeItem v-for="meal in paginatedMeals" :key="meal.idMeal" :recipe="meal" />
   </div>
+
+  <div class="text-center">
+    <v-container>
+      <v-row class="justify-center">
+        <v-col cols="8">
+          <v-container class="max-width">
+            <v-pagination v-model="page" :length="totalPages" class="my-4" rounded="circle"></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+
+
 </template>
 
 <style scoped>

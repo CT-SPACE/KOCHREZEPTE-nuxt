@@ -38,12 +38,33 @@ export async function getRandomRecipeFromAPI(): Promise<MealResponse> {
   return res;
 }
 
+// export async function getAllRecipesFromAPI(): Promise<MealResponse> {
+//   const res = await $fetch<MealResponse>(`${API}/search.php`, {
+//     params: { s: "" },
+//   });
+//   return {
+//     ...res,
+//   };
+// }
+
 export async function getAllRecipesFromAPI(): Promise<MealResponse> {
-  const res = await $fetch<MealResponse>(`${API}/search.php`, {
-    params: { s: "" },
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+
+  const responses = await Promise.all(
+    [...letters].map((letter) =>
+      $fetch<MealResponse>(`${API}/search.php`, {
+        params: { f: letter },
+      }),
+    ),
+  );
+
+  const meals = responses.flatMap((response) => {
+    if (response.meals == null) return [];
+    if (!Array.isArray(response.meals)) {
+      throw new Error("Unerwartete Antwort von TheMealDB");
+    }
+    return response.meals;
   });
-  return {
-    ...res,
-    meals: res.meals ? res.meals.slice(0, 20) : [],
-  };
+
+  return { meals };
 }

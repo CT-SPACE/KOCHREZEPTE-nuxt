@@ -39,6 +39,10 @@ defineEmits(['close', 'saved'])
 
 
 <style scoped>
+button {
+  border: none;
+}
+
 .layer {
   background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
@@ -53,15 +57,6 @@ defineEmits(['close', 'saved'])
   justify-content: center;
   align-items: center;
 
-
-}
-
-.close-btn {
-  position: absolute;
-  top: 30px;
-  right: 10vw !important;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
 
 }
 </style>

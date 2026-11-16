@@ -115,6 +115,20 @@
   line-height: 3;
 }
 
+#recipe-form .v-card--variant-elevated {
+  /* min-width: 500px;
+  height: 100%; */
+  box-shadow: none !important;
+}
+
+.achdb-searchbar input {
+  border: none !important;
+}
+
+.achdeb-searchbar .v-btn--size-default {
+  min-width: unset !important;
+}
+
 .zub-btn {
   width: 100%;
   background-color: #d0f286 !important;
@@ -277,6 +291,43 @@ h3 {
   text-align: left;
 }
 
+.close-btn {
+  position: absolute;
+  top: 30px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.layer .close-btn {
+  right: 10vw !important;
+}
+
+.overlay-panel .close-btn {
+  right: 2vw !important;
+  width: var(--v-btn-height) !important;
+  height: var(--v-btn-height) !important;
+}
+
+.quick-search .search-input {
+  position: relative;
+}
+
+.quick-search .search-input input.globalSearch {
+  padding-right: 40px;
+}
+
+.quick-search .search-input .clear-search {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 8px;
+  border: 0 !important;
+  background: transparent;
+  box-shadow: none;
+}
+
 a {
   text-decoration: none;
   color: green;
@@ -284,6 +335,9 @@ a {
 
 a:hover {
   color: rgb(246, 246, 245);
+}
+a.v-btn:hover {
+  color: black;
 }
 
 @media screen and (max-width: 700px) {

@@ -4,8 +4,7 @@ import { useRoute } from 'vue-router'
 import { getRecipesByIdFromAPI } from '../utils/api.service'
 import type { RecipeAPIDetail } from '../utils/api.service'
 import {
-  getPersonalRecipesFromDB, isPersonalId, MOBILE_PLACEHOLDER_IMG,
-  splitPersonalSteps
+  isPersonalId, MOBILE_PLACEHOLDER_IMG, splitPersonalSteps
 } from '../utils/personal.service'
 
 interface InstructionStep {
@@ -138,6 +137,9 @@ const instructionSteps = computed<InstructionStep[]>(() => {
 
 <template>
   <Loader_pot v-if="loading" />
+  <div class="close-btn recipe-close"> <v-btn to="/" icon="$close" variant="text" density="compact"
+      aria-label="Rezept schließen" />
+  </div>
   <div v-if="meal">
     <h2 class="pad16">{{ meal.strMeal }}</h2>
     <div class="hero-image-container">
@@ -164,11 +166,6 @@ const instructionSteps = computed<InstructionStep[]>(() => {
     <div class="pad16 borderContainer">
       <h3>Zubereitung</h3>
       <ol class="list">
-        <!--    <li v-for="steps in instructionSteps" :key="steps.number">
-          <strong>Step {{ steps.number }}:</strong><br />
-          {{ steps.text }}
-          <p></p>
-        </li> -->
         <li v-for="steps in instructionSteps" :key="steps.number">
           <strong>Step {{ steps.number }}:</strong>
           <p v-for="(paragraph, index) in steps.paragraphs" :key="index">
@@ -226,6 +223,16 @@ picture {
 
 .center {
   text-align: center;
+}
+
+.recipe-close {
+  top: 140px;
+  opacity: 0.8
+}
+
+.recipe-close:hover {
+  color: black;
+  opacity: 1;
 }
 
 li p {

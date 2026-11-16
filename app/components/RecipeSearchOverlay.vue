@@ -3,31 +3,38 @@
     <div class="overlay-backdrop" @click="closeSearchLayer"></div>
 
     <section class="overlay-panel">
-      <button class="close-btn" type="button" @click="closeSearchLayer">✕ Schließen</button>
+      <v-btn class="close-btn" icon="mdi-close" type="button" @click="closeSearchLayer"></v-btn>
 
       <h2>Rezeptsuche</h2>
 
       <div class="controls">
-        <input
-          v-model.trim="query"
-          type="text"
-          placeholder="Suche nach Rezept, Zutat, Land oder Kategorie..."
-        />
+        <!-- <input v-model.trim="query" type="text" placeholder="Suche nach Rezept, Zutat, Land oder Kategorie..." />
+          -->
+        <form class="quick-search">
+          <div class="search-input">
+            <input v-model.trim="query" type="text" class="globalSearch"
+              placeholder="Rezept, Zutat oder Land suchen..." />
+            <v-btn v-if="query" type="button" class="clear-search" aria-label="Suche löschen" min-width="30"
+              @click="query = ''">
+              <v-icon icon="mdi-backspace" size="16" />
+            </v-btn>
+          </div>
+        </form>
         <div class="secondControlLine">
-        <select v-model="countryFilter">
-          <option value="">Alle Länder</option>
-          <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
-        </select>
+          <select v-model="countryFilter">
+            <option value="">Alle Länder</option>
+            <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
+          </select>
 
-        <select v-model="categoryFilter">
-          <option value="">Alle Kategorien</option>
-          <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
-        </select>
+          <select v-model="categoryFilter">
+            <option value="">Alle Kategorien</option>
+            <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+          </select>
 
-        <select v-model="ingredientFilter">
-          <option value="">Alle Zutaten</option>
-          <option v-for="i in ingredientsList" :key="i" :value="i">{{ i }}</option>
-        </select>
+          <select v-model="ingredientFilter">
+            <option value="">Alle Zutaten</option>
+            <option v-for="i in ingredientsList" :key="i" :value="i">{{ i }}</option>
+          </select>
         </div>
       </div>
       <p v-if="loading" class="status">Lade...</p>
@@ -76,11 +83,13 @@ watch([query, countryFilter, categoryFilter, ingredientFilter], scheduleSearch)
   justify-content: center;
   align-items: flex-start;
 }
+
 .overlay-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
 }
+
 .overlay-panel {
   position: relative;
   background: #fff;
@@ -93,6 +102,7 @@ watch([query, countryFilter, categoryFilter, ingredientFilter], scheduleSearch)
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
+
 .close-btn {
   position: absolute;
   top: 16px;
@@ -106,19 +116,21 @@ watch([query, countryFilter, categoryFilter, ingredientFilter], scheduleSearch)
   border: 1px solid lightgray;
   scale: 1.02;
 }
+
 .controls {
   display: flex;
   box-sizing: border-box;
   gap: 8px;
   margin-top: 12px;
 }
+
 .controls input,
 .controls select {
   padding: 8px;
 }
 
-.secondControlLine{
-  display:flex;
+.secondControlLine {
+  display: flex;
   gap: 8px;
 }
 
@@ -132,6 +144,7 @@ watch([query, countryFilter, categoryFilter, ingredientFilter], scheduleSearch)
 select {
   width: 120px;
 }
+
 .teaser-list {
   list-style: none;
   margin: 0;
@@ -145,17 +158,19 @@ select {
   .list-item {
     width: 100%;
   }
-  .controls{
-    flex-direction:column;
+
+  .controls {
+    flex-direction: column;
   }
 
 }
 
-@media screen and (max-width: 450px){
-.secondControlLine select{
-    width:80px;  
-}
-  .overlay-panel{
+@media screen and (max-width: 450px) {
+  .secondControlLine select {
+    width: 80px;
+  }
+
+  .overlay-panel {
     padding: 24px 10px;
   }
 }

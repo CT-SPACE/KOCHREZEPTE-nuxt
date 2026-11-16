@@ -1,6 +1,6 @@
 <template>
-  <div class="recipe-item-container">
-    <div class="recipe-item" @click="openDetail">
+  <div class="recipe-item-container" @click="openDetail">
+    <div class="recipe-item">
       <!-- <img :src="props.recipe?.strMealThumb" class="recipe-img" /> -->
       <picture>
         <source v-if="isPersonalId(props.recipe.idMeal)" media="(width < 400px)" :srcset="MOBILE_PLACEHOLDER_IMG" />
@@ -103,7 +103,7 @@ function openDetail() {
   }
 
   .font12 {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }
 

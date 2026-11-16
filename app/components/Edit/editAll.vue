@@ -2,7 +2,7 @@
     <v-card class="recipe-card">
         <v-form ref="formRef" id="recipe-form" validate-on="input lazy" v-model="isValid" @submit.prevent="save">
 
-            <v-card class="pa-4" min-width="500">
+            <v-card class="pa-4">
                 <v-card-title>{{ title }}</v-card-title>
 
                 <!-- <v-select :items="props.sourceTypes" item-title="source_type" item-value="stid" label="Quelle" /> -->
@@ -190,10 +190,19 @@ function cancel() {
 </script>
 
 <style>
-.recipe-card {
+#recipe-form {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    overflow-y: auto;
+}
+
+.v-card.recipe-card {
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    max-width: 800px;
     width: 80vw;
     box-sizing: border-box;
     height: 100%;
@@ -201,14 +210,16 @@ function cancel() {
 
 .actions-fixed {
     width: 100%;
-    position: fixed;
+    /* position: fixed; */
+    position: static;
+    flex-shrink: 0;
     border-top: 1px solid #ddd;
     padding: 12px 30px !important;
     justify-content: flex-end;
     width: 100%;
-    right: 0;
+    /* right: 0; bottom: 10px; */
     background-color: yellowgreen;
-    bottom: 10px;
+
 
 }
 

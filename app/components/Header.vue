@@ -3,11 +3,25 @@
     <Header_ani />
     <div class="head">
       <h1>Kochrezepte</h1>
-      <form class="quick-search" @submit.prevent="handleSubmit">
+      <!-- <form class="quick-search" @submit.prevent="handleSubmit">
         <input v-model.trim="query" type="text" class="globalSearch" placeholder="Rezept, Zutat oder Land suchen..." />
+        <v-btn v-if="query" type="button" class="clear-search" aria-label="Suche löschen" min-width="30"
+          @click="query = ''"><v-icon icon="mdi-backspace" size="16"></v-icon></v-btn>
+        <button type="submit">Suchen</button>
+       -->
+      <form class="quick-search" @submit.prevent="handleSubmit">
+        <div class="search-input">
+          <input v-model.trim="query" type="text" class="globalSearch"
+            placeholder="Rezept, Zutat oder Land suchen..." />
+          <v-btn v-if="query" type="button" class="clear-search" aria-label="Suche löschen" min-width="30"
+            @click="query = ''">
+            <v-icon icon="mdi-backspace" size="16" />
+          </v-btn>
+        </div>
         <button type="submit">Suchen</button>
       </form>
     </div>
+
   </header>
 </template>
 
