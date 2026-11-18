@@ -310,6 +310,7 @@ h3 {
 
 .quick-search .search-input {
   position: relative;
+  width: fit-content;
 }
 
 .quick-search .search-input input.globalSearch {

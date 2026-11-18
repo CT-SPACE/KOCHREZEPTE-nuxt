@@ -50,6 +50,11 @@
                 {{ item.source_detail }}
             </template>
 
+            <!-- Source_Note -->
+            <template #item.note="{ item }">
+                {{ item.note }}
+            </template>
+
         </v-data-table>
     </v-card>
     <div class="newRecipeBtn">
@@ -162,9 +167,11 @@ const headers = [
         width: '30%'
     },
     { key: 'category', title: 'Kategorie', width: '100px' },
+    { key: 'note', title: 'Notiz: ', width: '20%' },
     { key: 'source_type', title: 'Quelle', width: '100px' },
     { key: 'source', title: 'Zu finden in:', width: '100px' },
-    { key: 'source_detail', title: 'Wo genau: ', width: '20%' },
+    { key: 'source_detail', title: 'Wo genau: ', width: '100px' },
+
 ] as const
 
 import { shallowRef, watch } from 'vue'

@@ -1,8 +1,9 @@
 import type { DbRecipe } from "../types/dbRecipe.type";
 
 export const PERSONAL_LABEL = "Persönlich";
-const PLACEHOLDER_IMG = "/assets/img/placeholder.svg";
-export const MOBILE_PLACEHOLDER_IMG = "/assets/img/placeholder_small.svg";
+const PLACEHOLDER_IMG = "/assets/img/placeholder_loading_pot.png";
+export const MOBILE_PLACEHOLDER_IMG =
+  "/assets/img/placeholder_loading_pot_small.png";
 
 // Form wie TheMealDB, damit RecipeItem/[id].vue unverändert funktionieren
 export interface PersonalMeal {

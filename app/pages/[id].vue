@@ -86,7 +86,7 @@ onMounted(() => {
 function splitIntoParagraphs(text: string, sentencesPerParagraph = 3): string[] {
   const sentences = text
     .replace(/\r\n/g, '\n')
-    .split(/(?<=[.!?])\s+/)
+    .split(/(?<=[.!?])\s+|▢/)
     .map((sentence) => sentence.trim())
     .filter(Boolean)
 
@@ -137,8 +137,9 @@ const instructionSteps = computed<InstructionStep[]>(() => {
 
 <template>
   <Loader_pot v-if="loading" />
-  <div class="close-btn recipe-close"> <v-btn to="/" icon="$close" variant="text" density="compact"
-      aria-label="Rezept schließen" />
+  <div class="recipe-close">
+    <div class="close-btn"> <v-btn to="/" icon="$close" variant="text" density="compact"
+        aria-label="Rezept schließen" /></div>
   </div>
   <div v-if="meal">
     <h2 class="pad16">{{ meal.strMeal }}</h2>
@@ -226,8 +227,11 @@ picture {
 }
 
 .recipe-close {
-  top: 140px;
-  opacity: 0.8
+  top: 20px;
+  opacity: 0.8;
+  position: relative;
+  display: flex;
+  justify-content: end;
 }
 
 .recipe-close:hover {
