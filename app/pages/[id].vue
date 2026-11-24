@@ -146,13 +146,14 @@ const instructionSteps = computed<InstructionStep[]>(() => {
     <div class="hero-image-container">
       <!-- <img :src="meal.strMealThumb" :alt="meal.strMeal" class="hero-image" /> -->
       <picture>
-        <source v-if="isPersonalId(meal.idMeal)" media="(width < 400px)" :srcset="MOBILE_PLACEHOLDER_IMG" />
+        <source v-if="isPersonalId(meal.idMeal)" media="(width < 400px)"
+          :srcset="meal.strMealThumbSmall ?? MOBILE_PLACEHOLDER_IMG" />
         <img :src="meal.strMealThumb" :alt="meal.strMeal" class="hero-image" />
       </picture>
     </div>
     <div class="pad16 center">
-      <span><!--<strong>Kategorie:</strong> -->{{ meal.strCategory }}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-      <span><!--<strong>Land:</strong>-->{{ meal.strCountry }}</span><br>
+      <span>{{ meal.strCategory }}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>{{ meal.strCountry }}</span><br>
       <span v-if="isPersonalId(meal.idMeal) && meal.strPrepTime > 0">
         <img src="/assets/img/cutting-board.svg" class="icons" alt="Preperation Time"></img> {{
           meal.strPrepTime

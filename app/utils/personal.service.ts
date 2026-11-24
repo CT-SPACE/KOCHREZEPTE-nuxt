@@ -16,13 +16,14 @@ export interface PersonalMeal {
   strCookTime: number | null;
   strInstructions?: string;
   ingredientNames?: string[];
+  strMealThumbSmall?: string;
   [key: string]: unknown; // strIngredientN / strMeasureN
 }
 
 // Antwort von /api/recipes?personal=1 (Zutatennamen als Komma-Liste)
 type PersonalListRow = Pick<
   DbRecipe,
-  "id" | "title" | "category" | "prep_time" | "cook_time"
+  "id" | "title" | "category" | "prep_time" | "cook_time" | "image_key"
 > & {
   ingredient_names: string | null;
 };
@@ -30,7 +31,13 @@ type PersonalListRow = Pick<
 // Antwort von /api/recipes/[id]
 interface PersonalDetailRow extends Pick<
   DbRecipe,
-  "id" | "title" | "description" | "category" | "prep_time" | "cook_time"
+  | "id"
+  | "title"
+  | "description"
+  | "category"
+  | "prep_time"
+  | "cook_time"
+  | "image_key"
 > {
   ingredients: { name: string; amount: number | null; unit: string | null }[];
 }
@@ -64,6 +71,12 @@ export async function getPersonalRecipesFromDB(): Promise<PersonalMeal[]> {
 
   return [...unique.values()].map((r) => ({
     ...baseMeal(r),
+    ...(r.image_key
+      ? {
+          strMealThumb: `/api/recipes/recipe-images/small/${encodeURIComponent(r.image_key)}`,
+          strMealThumbSmall: `/api/recipes/recipe-images/small/${encodeURIComponent(r.image_key)}`,
+        }
+      : {}),
     ingredientNames: r.ingredient_names
       ? r.ingredient_names.split(",").map((n) => n.trim())
       : [],
@@ -78,6 +91,12 @@ export async function getPersonalRecipeByIdFromDB(
 
   const meal: PersonalMeal = {
     ...baseMeal(r),
+    ...(r.image_key
+      ? {
+          strMealThumb: `/api/recipes/recipe-images/big/${encodeURIComponent(r.image_key)}`,
+          strMealThumbSmall: `/api/recipes/recipe-images/small/${encodeURIComponent(r.image_key)}`,
+        }
+      : {}),
     strInstructions: r.description ?? "",
     ingredientNames: r.ingredients.map((i) => i.name),
   };

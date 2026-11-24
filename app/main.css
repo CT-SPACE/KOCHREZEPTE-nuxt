@@ -77,6 +77,10 @@
   width: unset !important;
 }
 
+.v-file-upload-list {
+  margin: 0;
+}
+
 .v-list-item .v-list-item__overlay:hover {
   opacity: 0.8 !important;
 }

@@ -27,8 +27,8 @@
   const statements = [
     db
       .prepare(
-        `INSERT INTO recipes (title, description, servings, prep_time, cook_time, category)
-         VALUES (?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO recipes (title, description, servings, prep_time, cook_time, category, image_key)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
       )
       .bind(
         recipe.title,
@@ -37,6 +37,7 @@
         recipe.prep_time ?? null,
         recipe.cook_time ?? null,
         recipe.category ?? null,
+        recipe.image_key ?? null,
       ),
     ...sources.map((src: any) =>
       db

@@ -49,7 +49,7 @@ button {
   top: 0;
   left: 0;
   margin: 0;
-  padding: 10vw;
+  padding: 12vh 10vh;
   width: 100vw;
   height: 100vh;
   z-index: 100;
@@ -58,5 +58,11 @@ button {
   align-items: center;
 
 
+}
+
+@media screen and (max-width: 450px) {
+  .layer {
+    padding: 10dvh 2dvh 4dvh;
+  }
 }
 </style>

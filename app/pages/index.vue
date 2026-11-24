@@ -2,7 +2,7 @@
 
 import { ref, onMounted } from 'vue'
 import { getAllRecipesFromAPI } from '../utils/api.service'
-import { getPersonalRecipesFromDB } from '../utils/personal.service'
+import { getPersonalRecipesFromDB, MOBILE_PLACEHOLDER_IMG } from '../utils/personal.service'
 
 const itemsPerPage = 28
 const page = useState('recipe-list-page', () => 1)

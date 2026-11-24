@@ -85,3 +85,14 @@ export async function updateRecipe(
     body: buildRecipePayload(recipe, ingredients, sources),
   });
 }
+
+export async function uploadRecipeImages(big: Blob, small: Blob) {
+  const form = new FormData();
+  form.append("big", big, "big.webp");
+  form.append("small", small, "small.webp");
+
+  return await $fetch<{ imageKey: string }>("/api/recipe-images", {
+    method: "POST",
+    body: form,
+  });
+}

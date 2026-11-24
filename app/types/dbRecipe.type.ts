@@ -11,6 +11,7 @@ export interface DbRecipe {
   source_type_id: number;
   // updated_at: string | null
   category: string | null;
+  image_key: string | null;
 }
 
 export interface DbSourceTypes {

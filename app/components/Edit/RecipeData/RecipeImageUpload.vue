@@ -12,23 +12,41 @@
 <template>
     <v-container>
         <v-file-upload :model-value="selectedFile ?? undefined" accept="image/jpeg,image/png,image/webp" clearable
-            title="Rezeptbild auswählen" @update:model-value="setFile">
+            title="Rezeptbild auswählen" aria-label="Clear Image" @update:model-value="setFile">
             <template v-if="selectedFile" #default>
-                <VFileUploadList clearable />
+                <!-- <VFileUploadList aria-label="Bild entfernen" title="Bild entfernen" clearable /> -->
+                <VFileUploadList clearable>
+                    <template #item="{ file, props }">
+                        <VFileUploadItem :file="file" v-bind="props" clearable>
+                            <template #clear>
+                                <v-btn type="button" icon="$clear" variant="text" density="comfortable"
+                                    aria-label="Bildauswahl entfernen" title="Bildauswahl entfernen"
+                                    @click.stop="confirmRemove = true" />
+                            </template>
+                        </VFileUploadItem>
+                    </template>
+                </VFileUploadList>
             </template>
         </v-file-upload>
-        <ClientOnly class="positionR"> <v-btn v-if="imageUrl && !previewUrl" type="button" class="mt-3 btn-position"
-                @click="approve">
-                Approve
-            </v-btn>
 
-            <div v-if="previewUrl" class="mt-3 ">
-                <p>Zuspeicherndes Bild:</p>
-                <img :src="previewUrl" alt="Vorschau des gewählten Bildausschnitts" class="preview">
-                <v-btn type="button" class="mt-3 btn-position" @click="editCrop">
+        <ClientOnly>
+            <div v-if="previewUrl">
+                <p>Zu speicherndes Bild:</p>
+            </div>
+            <div v-if="imageUrl" class="crop-actions">
+                <v-btn v-if="!previewUrl" type="button" @click="approve">
+                    Approve
+                </v-btn>
+                <v-btn v-else type="button" @click="editCrop">
                     Ausschnitt bearbeiten
                 </v-btn>
             </div>
+            <div v-if="previewUrl">
+
+                <img :src="previewUrl" alt="Vorschau des gewählten Bildausschnitts" class="preview">
+            </div>
+
+
             <Cropper v-if="imageUrl" v-show="!previewUrl" ref="cropper" class="cropper" :src="imageUrl"
                 :stencil-props="{ aspectRatio: 5 / 1 }" :canvas="true" />
 
@@ -36,6 +54,22 @@
                 {{ error }}
             </v-alert>
         </ClientOnly>
+
+        <v-dialog v-model="confirmRemove" max-width="400" aria-labelledby="remove-image-title">
+            <v-card>
+                <v-card-title id="remove-image-title">Bild entfernen?</v-card-title>
+                <v-card-text>
+                    Das Bild wird gelöscht.
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer />
+                    <v-btn type="button" @click="confirmRemove = false">Nein</v-btn>
+                    <v-btn type="button" color="error" @click="selectedFile = null; confirmRemove = false">
+                        Ja, entfernen
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -43,17 +77,21 @@
 <script setup lang="ts">
 import { Cropper } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
-import { VFileUploadList } from 'vuetify/labs/VFileUpload'
+import { VFileUploadList, VFileUploadItem } from 'vuetify/labs/VFileUpload'
 
 const selectedFile = defineModel<File | null>({ required: true })
+const approvedCrop = defineModel<HTMLCanvasElement | null>('approvedCrop', {
+    required: true,
+})
 const cropper = ref<InstanceType<typeof Cropper> | null>(null)
 const imageUrl = ref<string | null>(null)
 const previewUrl = ref<string | null>(null)
 const error = ref('')
-
+const confirmRemove = ref(false)
 
 watch(selectedFile, (file, _previous, onCleanup) => {
     previewUrl.value = null
+    approvedCrop.value = null
     error.value = ''
     if (!file) {
         imageUrl.value = null
@@ -83,6 +121,7 @@ function approve() {
         }
 
         previewUrl.value = canvas.toDataURL('image/png')
+        approvedCrop.value = canvas
     } catch (err) {
         console.error('Bildvorschau konnte nicht erstellt werden:', err)
         error.value = 'Die Bildvorschau konnte nicht erstellt werden.'
@@ -90,6 +129,7 @@ function approve() {
 }
 
 function editCrop() {
+    approvedCrop.value = null
     previewUrl.value = null
     error.value = ''
 }
@@ -102,8 +142,9 @@ function editCrop() {
 
 }
 
-.positionR {
-    position: relative;
+.crop-actions {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .preview {
@@ -116,11 +157,6 @@ function editCrop() {
 
 .cropBtnPosition {
     position: absolute;
-}
-
-.btn-position {
-    position: absolute;
-    z-index: 10;
 }
 
 .displayNone {

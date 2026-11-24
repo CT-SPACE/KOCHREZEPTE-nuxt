@@ -14,6 +14,7 @@ SELECT
   r.cook_time,
   r.category,
   r.updated_at,
+  r.image_key,
   s.source,
   s.source_detail,
   s.note,

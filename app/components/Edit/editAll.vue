@@ -17,10 +17,16 @@
                             <EditRecipeDataPreparationSteps v-model="localRecipe" />
                         </div>
                         <div>
-                            <EditRecipeDataRecipeImageUpload v-model="selectedImage" />
+                            <EditRecipeDataRecipeImageUpload v-model="selectedImage"
+                                v-model:approved-crop="approvedCrop" />
+                            <v-btn v-if="approvedCrop" type="button" @click="testImageSizes">
+                                Bildgrößen prüfen
+                            </v-btn>
                         </div>
                     </template>
-
+                    <v-alert v-if="saveError" type="error" class="mb-3">
+                        {{ saveError }}
+                    </v-alert>
 
                 </v-card-text>
 
@@ -32,8 +38,8 @@
 
             <v-btn @click="resetForm()">Clear</v-btn>
             <v-btn @click="cancel()">Cancel</v-btn>
-            <v-btn color="primary" type="submit" form="recipe-form" :disabled="isValid === false"
-                :variant="isValid === false ? 'tonal' : 'elevated'"
+            <v-btn color="primary" type="submit" form="recipe-form" :disabled="isValid === false || saving"
+                :variant="isValid === false ? 'tonal' : 'elevated'" :loading="saving"
                 :prepend-icon="isValid === false ? 'mdi-alert-circle-outline' : undefined">SAVE</v-btn>
         </v-card-actions>
     </v-card>
@@ -43,12 +49,17 @@
 import type { DbRecipe, DbSourceType, DbIngredients, DbRecipeIngredients, DbSources, DbUnits } from '../../types/dbRecipe.type'
 import { createRecipe } from '../../utils/achdb.service'
 import { updateRecipe } from '../../utils/achdb.service'
+import { createRecipeImageSizes } from '../../utils/recipeimage'
+import { uploadRecipeImages } from '../../utils/achdb.service'
+
+const saving = ref(false)
+const saveError = ref('')
 const emit = defineEmits<{ (e: 'close'): void; (e: 'saved', mode: 'new' | 'edit'): void }>()
 const isValid = ref(false)
 const formRef = ref()
 let discarded = false
 const selectedImage = ref<File | null>(null)
-
+const approvedCrop = shallowRef<HTMLCanvasElement | null>(null)
 const title = computed(() =>
     props.editMode === 'new' ? 'Neues Rezept' : `Rezept bearbeiten: ${localRecipe.value.title}`
 )
@@ -91,11 +102,14 @@ function clearForm(sourceTypeId?: number): DbRecipe {
         source: '',
         source_detail: '',
         note: '',
-        source_type_id: stid
+        source_type_id: stid,
+        image_key: null,
     }
 }
 
 function resetForm() {
+    selectedImage.value = null
+    approvedCrop.value = null
     localRecipe.value = clearForm(localRecipe.value.source_type_id)
     localRecipeIngredients.value = []
 }
@@ -158,31 +172,107 @@ const isPersonal = computed(
         props.sourceTypes.find(s => s.stid === localRecipe.value.source_type_id)?.source_type === 'Persönlich'
 )
 
-async function save() {
-    const { valid } = await formRef.value.validate()
-
-    if (!valid) {
-        await nextTick()
-        document.querySelector('.v-input--error')?.scrollIntoView({ block: 'center', behavior: 'smooth' })
-        return
+watch(isPersonal, (personal) => {
+    if (!personal) {
+        approvedCrop.value = null
     }
-    if (!isPersonal.value) { localRecipeIngredients.value = [] }
-    try {
+})
 
-        const ingredients = localRecipeIngredients.value
-        const sources = localSources.value
+// async function save() {
+//     const { valid } = await formRef.value.validate()
+
+//     if (!valid) {
+//         await nextTick()
+//         document.querySelector('.v-input--error')?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+//         return
+//     }
+//     if (!isPersonal.value) { localRecipeIngredients.value = [] }
+//     try {
+
+//         const ingredients = localRecipeIngredients.value
+//         const sources = localSources.value
+
+//         if (props.editMode === 'new') {
+//             await createRecipe(localRecipe.value, ingredients, sources)
+//         } else {
+//             await updateRecipe(localRecipe.value, ingredients, sources)
+//         }
+//         emit('saved', props.editMode)
+//         cancel();
+//     } catch (err) {
+//         console.error('Speichern fehlgeschlagen:', err)
+//     }
+
+// }
+
+async function save() {
+    if (saving.value) return
+
+    saving.value = true
+    saveError.value = ''
+
+    try {
+        const { valid } = await formRef.value.validate()
+
+        if (!valid) {
+            await nextTick()
+            document.querySelector('.v-input--error')
+                ?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+            return
+        }
+
+        if (isPersonal.value && selectedImage.value && !approvedCrop.value) {
+            saveError.value = 'Bitte bestätige zuerst den Bildausschnitt.'
+            return
+        }
+
+        const recipe = structuredClone(toRaw(localRecipe.value))
+        const ingredients = isPersonal.value
+            ? structuredClone(toRaw(localRecipeIngredients.value))
+            : []
+        const sources = structuredClone(toRaw(localSources.value))
+
+        if (isPersonal.value && approvedCrop.value) {
+            const { big, small } = await createRecipeImageSizes(approvedCrop.value)
+            const { imageKey } = await uploadRecipeImages(big, small)
+            recipe.image_key = imageKey
+        }
 
         if (props.editMode === 'new') {
-            await createRecipe(localRecipe.value, ingredients, sources)
+            await createRecipe(recipe, ingredients, sources)
         } else {
-            await updateRecipe(localRecipe.value, ingredients, sources)
+            await updateRecipe(recipe, ingredients, sources)
         }
-        emit('saved', props.editMode)
-        cancel();
-    } catch (err) {
-        console.error('Speichern fehlgeschlagen:', err)
-    }
 
+        emit('saved', props.editMode)
+        cancel()
+    } catch (error) {
+        console.error('Speichern fehlgeschlagen:', error)
+        saveError.value =
+            'Speichern fehlgeschlagen. Prüfe vor einem erneuten Versuch, ob das Rezept bereits gespeichert wurde.'
+    } finally {
+        saving.value = false
+    }
+}
+
+async function testImageSizes() {
+    if (!approvedCrop.value) return
+
+    try {
+        const { big, small } = await createRecipeImageSizes(approvedCrop.value)
+
+        const bigImage = await createImageBitmap(big)
+        const smallImage = await createImageBitmap(small)
+
+        console.log('Groß:', bigImage.width, bigImage.height)
+        console.log('Klein:', smallImage.width, smallImage.height)
+
+        bigImage.close()
+        smallImage.close()
+    } catch (error) {
+        console.error('Bildverarbeitung fehlgeschlagen:', error)
+        alert(error instanceof Error ? error.message : 'Bildverarbeitung fehlgeschlagen.')
+    }
 }
 
 function cancel() {
@@ -201,6 +291,7 @@ function cancel() {
     max-height: none;
     overflow-y: auto;
 }
+
 
 .v-card.recipe-card {
     border-radius: 12px;
@@ -241,5 +332,16 @@ function cancel() {
     border: 1px solid gray;
     border-radius: 10px;
     padding: 8px 5px;
+}
+
+@media screen and (max-width: 450px) {
+    #recipe-form .v-card-text {
+        padding: 1rem 0;
+    }
+
+    .v-card.recipe-card {
+        width: 100%;
+    }
+
 }
 </style>

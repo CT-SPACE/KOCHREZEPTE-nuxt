@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
       .prepare(
         `UPDATE recipes
          SET title = ?, description = ?, servings = ?, prep_time = ?, cook_time = ?,
-             category = ?, updated_at = CURRENT_TIMESTAMP
+             category = ?, image_key = ?, updated_at = CURRENT_TIMESTAMP
          WHERE id = ?`,
       )
       .bind(
@@ -41,6 +41,7 @@ export default defineEventHandler(async (event) => {
         recipe.prep_time ?? null,
         recipe.cook_time ?? null,
         recipe.category ?? null,
+        recipe.image_key ?? null,
         id,
       ),
     db.prepare(`DELETE FROM sources WHERE recipe_id = ?`).bind(id),
