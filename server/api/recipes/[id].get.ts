@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const recipe = await db
     .prepare(
       `
-    SELECT r.id, r.title, r.description, r.category, st.source_type
+    SELECT r.id, r.title, r.description, r.category, r.prep_time, r.cook_time, st.source_type
     FROM recipes r
     LEFT JOIN sources s ON s.recipe_id = r.id
     LEFT JOIN source_types st ON st.stid = s.source_type_id

@@ -16,6 +16,9 @@
                                 :ingredient-options="ingredientOptions" :recipe-ingredients="recipeIngredients" />
                             <EditRecipeDataPreparationSteps v-model="localRecipe" />
                         </div>
+                        <div>
+                            <EditRecipeDataRecipeImageUpload v-model="selectedImage" />
+                        </div>
                     </template>
 
 
@@ -44,6 +47,7 @@ const emit = defineEmits<{ (e: 'close'): void; (e: 'saved', mode: 'new' | 'edit'
 const isValid = ref(false)
 const formRef = ref()
 let discarded = false
+const selectedImage = ref<File | null>(null)
 
 const title = computed(() =>
     props.editMode === 'new' ? 'Neues Rezept' : `Rezept bearbeiten: ${localRecipe.value.title}`

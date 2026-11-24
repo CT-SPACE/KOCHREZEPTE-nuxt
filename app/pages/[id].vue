@@ -151,8 +151,16 @@ const instructionSteps = computed<InstructionStep[]>(() => {
       </picture>
     </div>
     <div class="pad16 center">
-      <span><strong>Kategorie:</strong> {{ meal.strCategory }}</span>&nbsp;|&nbsp;
-      <span><strong>Land:</strong> {{ meal.strCountry }}</span>
+      <span><!--<strong>Kategorie:</strong> -->{{ meal.strCategory }}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span><!--<strong>Land:</strong>-->{{ meal.strCountry }}</span><br>
+      <span v-if="isPersonalId(meal.idMeal) && meal.strPrepTime > 0">
+        <img src="/assets/img/cutting-board.svg" class="icons" alt="Preperation Time"></img> {{
+          meal.strPrepTime
+        }}&nbsp;min&nbsp;&nbsp;
+      </span>
+      <span v-if="isPersonalId(meal.idMeal) && meal.strCookTime > 0"><img src="/assets/img/cooking-food.svg"
+          class="icons" alt="Cooking Time"></img>&nbsp;{{ meal.strCookTime
+          }}&nbsp;min</span>
     </div>
     <div class="pad16 borderContainer">
       <h3>Zutaten</h3>
@@ -185,7 +193,7 @@ const instructionSteps = computed<InstructionStep[]>(() => {
 .hero-image-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+
   width: 100%;
   height: 20vw;
   min-height: 130px;
@@ -193,13 +201,16 @@ const instructionSteps = computed<InstructionStep[]>(() => {
   overflow: hidden;
   max-height: 300px;
   border-radius: 12px;
-  margin-bottom: 1rem;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
 }
 
 picture {
   width: 100%;
   display: flex;
+}
+
+span {
+  font-size: 0.8rem;
 }
 
 .hero-image {
@@ -243,5 +254,10 @@ li p {
   margin-top: 0;
   margin-bottom: 8px;
   white-space: pre-line;
+}
+
+.icons {
+  margin-left: 5px;
+  margin-right: 3px;
 }
 </style>

@@ -12,31 +12,38 @@ export interface PersonalMeal {
   strCategory: string | null;
   strCountry: string;
   strMealThumb: string;
+  strPrepTime: number | null;
+  strCookTime: number | null;
   strInstructions?: string;
   ingredientNames?: string[];
   [key: string]: unknown; // strIngredientN / strMeasureN
 }
 
 // Antwort von /api/recipes?personal=1 (Zutatennamen als Komma-Liste)
-type PersonalListRow = Pick<DbRecipe, "id" | "title" | "category"> & {
+type PersonalListRow = Pick<
+  DbRecipe,
+  "id" | "title" | "category" | "prep_time" | "cook_time"
+> & {
   ingredient_names: string | null;
 };
 
 // Antwort von /api/recipes/[id]
 interface PersonalDetailRow extends Pick<
   DbRecipe,
-  "id" | "title" | "description" | "category"
+  "id" | "title" | "description" | "category" | "prep_time" | "cook_time"
 > {
   ingredients: { name: string; amount: number | null; unit: string | null }[];
 }
 
 function baseMeal(
-  r: Pick<DbRecipe, "id" | "title" | "category">,
+  r: Pick<DbRecipe, "id" | "title" | "category" | "prep_time" | "cook_time">,
 ): PersonalMeal {
   return {
     idMeal: `db-${r.id}`,
     strMeal: r.title,
     strCategory: r.category,
+    strPrepTime: r.prep_time,
+    strCookTime: r.cook_time,
     strCountry: PERSONAL_LABEL,
     strMealThumb: PLACEHOLDER_IMG,
   };

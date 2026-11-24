@@ -115,6 +115,18 @@
   line-height: 3;
 }
 
+.v-file-upload-title {
+  font-size: 1rem !important;
+}
+
+.v-file-upload-icon {
+  font-size: 2rem !important;
+}
+
+.v-file-upload-dropzone {
+  padding: 4px 16px 16px;
+}
+
 #recipe-form .v-card--variant-elevated {
   /* min-width: 500px;
   height: 100%; */
@@ -327,6 +339,12 @@ h3 {
   border: 0 !important;
   background: transparent;
   box-shadow: none;
+}
+
+.icons {
+  height: 30px;
+  position: relative;
+  bottom: -6px;
 }
 
 a {

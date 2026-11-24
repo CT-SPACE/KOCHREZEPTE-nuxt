@@ -1,11 +1,16 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "compilerOptions": 
-    {
-      "target": "ESNext", 
-      "forceConsistentCasingInFileNames": true,
-      "strict": true,
-    },
+  "compilerOptions": {
+    "target": "ESNext",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "allowJs": true,
+    "checkJs": true,
+    "jsx": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true
+  },
   "files": [],
   "references": [
     {
@@ -20,5 +25,8 @@
     {
       "path": "./.nuxt/tsconfig.node.json"
     }
-  ]
+  ],
+  "vueCompilerOptions": {
+    "target": 3.3
+  }
 }
