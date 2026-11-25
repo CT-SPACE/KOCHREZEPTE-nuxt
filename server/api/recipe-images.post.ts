@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  await requireUserSession(event);
   const parts = await readMultipartFormData(event);
 
   if (!parts || parts.length !== 2) {

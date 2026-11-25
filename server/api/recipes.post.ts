@@ -1,4 +1,5 @@
 ﻿export default defineEventHandler(async (event) => {
+  await requireUserSession(event);
   const db = event.context.cloudflare.env.ACHDB;
   const { recipe, ingredients = [], sources = [] } = await readBody(event);
 

@@ -17,5 +17,5 @@ export default defineNuxtConfig({
     modules: ["nitro-cloudflare-dev"],
   },
 
-  modules: ["@unocss/nuxt"],
+  modules: ["@unocss/nuxt", "nuxt-auth-utils"],
 });
